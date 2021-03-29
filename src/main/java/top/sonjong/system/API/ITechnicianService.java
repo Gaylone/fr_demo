@@ -18,5 +18,5 @@ public interface ITechnicianService {
 
     int updateTechnicianInfo(TechnicianPOJO technicianPOJO);
 
-    TechnicianPOJO  userLogin(String account,String pswd);
+    TechnicianPOJO  userLogin(String account);
 }

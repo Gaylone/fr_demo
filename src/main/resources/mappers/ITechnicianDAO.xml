@@ -54,7 +54,7 @@
         select * from technician
     </select>
     <select id="userLogin" resultMap="BaseResultMap">
-        select * from technician where account = #{account} and pswd=#{pswd}
+        select * from technician where account = #{account}
     </select>
     <select id="countTechnicianNum" resultType="java.lang.Integer">
         select count(*) from technician

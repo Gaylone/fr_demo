@@ -53,9 +53,9 @@ public class TechnicianServiceImpl implements ITechnicianService {
     }
 
     @Override
-    public TechnicianPOJO userLogin(String account, String pswd) {
+    public TechnicianPOJO userLogin(String account) {
 
-        return technicianDAO.userLogin(account,pswd);
+        return technicianDAO.userLogin(account);
     }
 
 

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import top.sonjong.system.API.ITechnicianService;
 import top.sonjong.system.domain.POJO.TechnicianPOJO;
+import top.sonjong.system.utils.MD5Util;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -18,18 +19,15 @@ public class TechnicianController {
 
     @RequestMapping("/portal")
     public String userLogin(String account,String pswd, HttpSession session, HttpServletResponse response) throws IOException {
-        TechnicianPOJO currentUser = technicianService.userLogin(account,pswd);
-
+        TechnicianPOJO currentUser = technicianService.userLogin(account);
         response.setCharacterEncoding("UTF-8");
         PrintWriter out = response.getWriter();
-
-        if(currentUser !=null){
+        if(MD5Util.verify(pswd, currentUser.getPass())){
             session.setAttribute("currentUser",currentUser);
             return "index";
         }else{
             out.write("<script>alert('用户名或密码错误')</script>");
             return "login";
-
         }
 
     }

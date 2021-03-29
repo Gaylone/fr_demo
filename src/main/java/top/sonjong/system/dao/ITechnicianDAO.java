@@ -25,5 +25,5 @@ public interface ITechnicianDAO {
 
     int updateTechnicianInfo(TechnicianPOJO technicianPOJO);
 
-    TechnicianPOJO userLogin(String account,String pswd);
+    TechnicianPOJO userLogin(String account);
 }
