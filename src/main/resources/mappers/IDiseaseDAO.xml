@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.sonjong.system.dao.IDiseaseDAO">
+    <resultMap id="BaseResultMap" type="top.sonjong.system.domain.POJO.DiseasePOJO">
+        <id column="did" property="did" jdbcType="BIGINT"/>
+        <result column="dname" property="dName" jdbcType="VARCHAR"/>
+        <result column="memo" property="memo" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <insert id="addDisease" parameterType="top.sonjong.system.domain.POJO.DiseasePOJO">
+        insert into disease (dname,memo)
+        values (
+                #{dName,jdbcType=VARCHAR},
+                #{memo,jdbcType=VARCHAR}
+               );
+    </insert>
+
+    <update id="updateDisease" parameterType="top.sonjong.system.domain.POJO.DiseasePOJO">
+        update disease
+        <trim prefix="set" suffixOverrides=",">
+            <if test="dName!=null">dName=#{dName,jdbcType=VARCHAR},</if>
+            <if test="memo!=null">memo=#{memo,jdbcType=VARCHAR},</if>
+        </trim>
+        where did=#{did,jdbcType=BIGINT}
+    </update>
+
+    <select id="getAllDisease" resultMap="BaseResultMap">
+        select * from disease
+    </select>
+
+    <select id="countAllDisease" resultType="java.lang.Integer">
+        select count(*) from disease
+    </select>
+    <select id="findDiseaseByCondition"  resultMap="BaseResultMap" parameterType="top.sonjong.system.domain.criteria.DiseaseCriteria">
+        select * from disease where 1=1
+        <include refid="sqlConditionByMemo"/>
+        <include refid="sqlConditionByName"/>
+        <include refid="sqlConditionById"/>
+    </select>
+    <sql id="sqlConditionByName">
+        <if test="null != dName and dName != ''">and dname like CONCAT('%', #{dName,jdbcType=VARCHAR}, '%') </if>
+    </sql>
+    <sql id="sqlConditionByMemo">
+        <if test="null != memo and memo != ''">and memo like CONCAT('%', #{memo,jdbcType=VARCHAR}, '%') </if>
+    </sql>
+    <sql id="sqlConditionById">
+        <if test="null != did and did != ''">and did =#{did} </if>
+    </sql>
+    <select id="checkName" resultType="java.lang.Integer" parameterType="java.lang.String">
+        select count(*) from disease where dname = #{dName} or dName = '${dName}病'
+    </select>
+</mapper>

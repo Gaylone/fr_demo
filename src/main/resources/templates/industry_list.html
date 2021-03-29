@@ -1,0 +1,300 @@
+<!DOCTYPE html >
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<base th:href="${#request.getContextPath()}+'/'">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+	<meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="format-detection" content="telephone=no" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta content="black" name="apple-mobile-web-app-status-bar-style">
+	<link th:href="@{asserts/css/SYSFrame.css}" rel="stylesheet" type="text/css" />
+	<link th:href="@{asserts/font/iconfont.css}" rel="stylesheet" type="text/css" />
+	<link th:href="@{asserts/css/module.css}" rel="stylesheet" type="text/css" />
+	<link th:href="@{asserts/css/pages.css}" rel="stylesheet" type="text/css" />
+	<link th:href="@{asserts/css/bootstrap.min.css}" rel="stylesheet" type="text/css" />
+	<title>养殖任务</title>
+	<script th:src="@{asserts/js/jquery-3.4.1.min.js}" type="text/javascript"></script>
+	<script th:src="@{asserts/js/bootstrap.min.js}" type="text/javascript"></script>
+	<script th:src="@{asserts/js/jquery.nicescroll.js}" type="text/javascript"></script>
+	<script th:src="@{asserts/js/HUpages.js}" type="text/javascript"></script>
+	<script th:src="@{asserts/js/other/industry.js}" type="text/javascript"></script>
+	<script th:src="@{asserts/js/template.js}" type="text/javascript"></script>
+	<script th:src="@{asserts/js/common.js}" type="text/javascript"></script>
+	<!--[if lt IE 9]>
+	<script th:src="@{asserts/js/html5shiv.js}" type="text/javascript"></script>
+	<script th:src="@{asserts/js/css3-mediaqueries.js}"  type="text/javascript"></script>
+	<![endif]-->
+</head>
+
+<body id="situation" class="pagebox">
+<div class="pages-style">
+	<!--左侧菜单栏-->
+
+	<!--右侧内容-->
+	<div class="bk-con-message message-section" id="iframe_box">
+		<!--编辑内容-->
+		<div class="operation  mb15 relative">
+			<!-- Button trigger modal -->
+			<button  class="btn button_btn bg-deep-blue menuUl_title" type="button" data-toggle="modal" id="addIndustry" data-target="#addIndustry1" title="新建养殖任务">
+				<i class="iconfont"></i>&nbsp;新建养殖任务
+			</button>
+			<!-- Modal -->
+			<div class="modal fade" id="addIndustry1" tabindex="-1" role="dialog" aria-labelledby="addIndustryTitle1">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+							<h4 class="modal-title" id="addIndustryTitle1">养殖配置</h4>
+						</div>
+						<div class="modal-body">
+							<form id="productPanel" >
+
+							</form>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+							<button type="button" class="btn btn-primary" id="submitIndustry">提交</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Modal -->
+			<div class="modal fade" id="addIndustry2" tabindex="-1" role="dialog" aria-labelledby="addIndustryTitle2">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+							<h4 class="modal-title" id="addIndustryTitle2">Modal title</h4>
+						</div>
+						<div class="modal-body">
+							...
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+							<button type="button" class="btn btn-primary">Save changes</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Modal -->
+			<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+							<h4 class="modal-title" id="myModalLabel">收成设置</h4>
+						</div>
+						<div class="modal-body">
+							<form id="detailPanel" ></form>
+
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+							<button type="button" class="btn btn-primary" id="saveDetail">提交</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Modal -->
+			<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+							<h4 class="modal-title" id="myModalLabel2">其他</h4>
+						</div>
+						<div class="modal-body">
+							<div class="form-group">
+								<label>新增的成本:(<span id="costMessage" style="color: red"></span>)</label>
+								<input type="text" class="form-control" id="total_cost" placeholder="输入新增的成本">
+							</div>
+							<div class="form-group">
+								<label>完成时间:</label>
+								<input type="date" class="form-control" id="harvestDate">
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+							<button type="button" class="btn btn-primary" id="saveIndustry">提交</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Modal -->
+			<div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="mydetailModalLabel">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+							<h4 class="modal-title" id="mydetailModalLabel">养殖详情</h4>
+						</div>
+						<div class="modal-body">
+							<div class="form-group">
+								<label>池塘名:<span id="pName"></span></label>
+							</div>
+							<div class="form-group">
+								<label>所属人:<span id="fName"></span></label>
+							</div>
+							<div class="form-group">
+								<label>养殖详情:</label>
+								<table class="table table-hover" >
+									<thead>
+									<tr>
+										<th >#名称</th>
+										<th >#鱼苗数量(尾)</th>
+										<th >#收成重量(斤)</th>
+										<th >#单价(元/斤)</th>
+										<th >#收成(元)</th>
+									</tr>
+									</thead>
+									<tbody id="industry_detail_list">
+
+									</tbody>
+								</table>
+							</div>
+							<div class="form-group">
+								<label>总成本:<span id="totalCost"></span></label>
+							</div>
+							<div class="form-group">
+								<label>总收成:<span id="totalHarvest"></span></label>
+							</div>
+							<div class="form-group">
+								<label>利润:<span id="profit"></span></label>
+							</div>
+							<div class="form-group">
+								<label>清塘日期:<span id="harvestDatetime"></span></label>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!--列表内容-->
+		<div class="page_content clearfix mb15 table-module ">
+			<table class="gallery table table_list table_striped table-bordered " id="tableList">
+				<thead>
+				<tr>
+					<th >编号</th>
+					<th  >池塘</th>
+					<th  >总收成</th>
+					<th  >状态</th>
+					<th  >清塘日期</th>
+					<th  >总成本</th>
+					<th  >查看详情</th>
+				</tr>
+				</thead>
+				<tbody id="industryList">
+				<tr class="relative" th:each="industry,industriesList:${industryPOJOSList}">
+					<td th:text="${industry.iid}"></td>
+					<td th:text="${industry.pName}"></td>
+					<td th:text="${industry.total_harvest}"></td>
+					<td th:switch="${industry.status}">
+						<span th:case="0" style="color: red">正在生产</span>
+						<span th:case="1" style="color: dodgerblue">已完成</span>
+					</td>
+					<td th:text="${industry.harvestDate}"></td>
+					<td th:text="${industry.total_cost}"></td>
+					<td th:switch="${industry.status}">
+						<a th:onclick="showDetail([[${industry.iid}]])">查看详情</a>
+
+						<button type="button" th:case="0" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal" th:onclick="gettd([[${industry.iid}]])">
+							任务结算
+						</button>
+					</td>
+
+				</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+</body>
+
+</html>
+
+<script>
+
+	$(function() {
+		//内页框架结构编辑
+		$("#situation").Hupage({
+			slide: '#breadcrumb',
+			padding: 15,
+			menuModule: '#bk-con-menu', //菜单模块
+			pagecontent: '.page_content', //自定义属性
+			operation: '.operation', //自定义属性
+			scrollbar: function(e) {
+				e.niceScroll({
+					cursorcolor: "#dddddd",
+					cursoropacitymax: 1,
+					touchbehavior: false,
+					cursorwidth: "3px",
+					cursorborder: "0",
+					cursorborderradius: "3px",
+				});
+			},
+			expand: function(thisBox, settings) {
+				var pc = "";
+				$(settings.pagecontent).css("margin-bottom") != null ? pc = parseInt($(settings.pagecontent).css("margin-bottom").replace("px", "")) : '';
+				$(settings.pagecontent).css({
+					height: $(window).height() - $(settings.operation).outerHeight() - pc - (settings.padding * 2)
+				})
+				settings.scrollbar($(settings.slide) && $(settings.pagecontent));
+				//获取设置url
+				$.getUrlParam = function(name) {
+					var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+					var r = window.location.search.substr(1).match(reg);
+					if(r != null) return unescape(r[2]);
+					return null;
+				}
+				var id = $.getUrlParam('fid'); //获取其中的参数值
+				//编辑数据
+				var advertisMore = function(callback) {
+					$.ajax({
+						url: "asserts/json/farmer.json",
+						type: "GET",
+						dataType: 'json',
+						success: function(ret) {
+							typeof callback == 'function' && callback(ret);
+						},
+					});
+				};
+				advertisMore(function(listArr) {
+					var listhtml = $('#productlist');
+					var html = template('producthtml', {
+						id: id,
+						list: listArr.data,
+						sorts: listArr.sort
+					});
+					var s = listArr.data.length;
+					$("#quantity").html(s);
+
+					listhtml.append(html);
+					new TableSorter("tableList", 4, 5, 7, 9); //设置
+					$("#situation").Hupage({});//加载完数据执行
+				});
+			} //自定义方法
+		});
+	})
+</script>
+
+<style type="text/css">
+	.message{
+		font-size: 12px;
+		color: red;
+	}
+	.modal-body{
+		font-size: 16px;
+	}
+</style>

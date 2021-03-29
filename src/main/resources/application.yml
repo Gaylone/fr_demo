@@ -1,0 +1,49 @@
+# spring配置
+spring:
+  # 文件上传大小配置，主要针对图片
+  servlet:
+    multipart:
+      max-file-size: 10MB #单个最大
+      max-request-size: 100MB #单次请求最大
+  # thymeleaf必要配置
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    cache: false
+    servlet:
+      content-type: text/html
+    mode: HTML
+    encoding: UTF-8
+
+    # 数据库/连接池 配置
+  profiles:
+    include: druid
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: 123456
+    url: jdbc:mysql://localhost:3306/aquaculture?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf8&useSSL=false
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      initial-size: 8
+      min-idle: 1
+      max-active: 20
+      max-wait: 20000
+mybatis:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  mapper-locations: classpath*:/mappers/*.xml
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+  params: count=countSql
+
+# 端口 访问路径
+server:
+  servlet:
+    encoding:
+      charset: utf-8
+      enabled: true
+    context-path: /
+  port: 8080

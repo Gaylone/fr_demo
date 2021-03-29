@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.sonjong.system.dao.ITechnicianDAO">
+    <resultMap id="BaseResultMap" type="top.sonjong.system.domain.POJO.TechnicianPOJO">
+        <id column="tid" property="tid" jdbcType="BIGINT"/>
+        <result column="tname" property="tName" jdbcType="VARCHAR"/>
+        <result column="tidnum" property="tidNum" jdbcType="VARCHAR"/>
+        <result column="account" property="account" jdbcType="VARCHAR"/>
+        <result column="pswd" property="pswd" jdbcType="VARCHAR"/>
+        <result column="tphone" property="tPhone" jdbcType="VARCHAR"/>
+        <result column="tsex" property="tSex" jdbcType="VARCHAR"/>
+        <result column="tmajor" property="tMajor" jdbcType="VARCHAR"/>
+        <result column="role" property="role" jdbcType="BIGINT"/>
+    </resultMap>
+    <insert id="addTechnician" parameterType="top.sonjong.system.domain.POJO.TechnicianPOJO">
+        insert into technician (tname,tidnum,tphone,tsex,tmajor,account,pswd)
+        values (
+                   #{tName,jdbcType=VARCHAR},#{tidNum,jdbcType=VARCHAR},
+                   #{tPhone,jdbcType=VARCHAR},#{tSex,jdbcType=VARCHAR},
+                   #{tMajor,jdbcType=VARCHAR },#{account,jdbcType=VARCHAR },
+                   #{pswd,jdbcType=VARCHAR }
+               )
+    </insert>
+    <update id="freezeTechnician" parameterType="java.lang.Long">
+        update technician set status=1 where tid=#{tid,jdbcType=BIGINT}
+    </update>
+    <update id="activeTechnician" parameterType="java.lang.Long">
+        update technician set status=0 where tid=#{tid,jdbcType=BIGINT}
+    </update>
+    <update id="updateTechnicianInfo" parameterType="top.sonjong.system.domain.POJO.TechnicianPOJO">
+        update technician
+        <trim prefix="set" suffixOverrides=",">
+            <if test="tName!=null">tname=#{tName,jdbcType=VARCHAR},</if>
+            <if test="tidNum!=null">tidnum=#{tidNum,jdbcType=VARCHAR},</if>
+            <if test="tSex!=null">tsex= #{tSex,jdbcType=VARCHAR},</if>
+            <if test="tMajor!=null">tmajor=#{tMajor,jdbcType=VARCHAR },</if>
+            <if test="tPhone!=null">tphone=#{tPhone,jdbcType=VARCHAR },</if>
+        </trim>
+        where tid=#{tid,jdbcType=BIGINT}
+    </update>
+    <select id="findTechnicianByConditions" resultMap="BaseResultMap"
+            parameterType="top.sonjong.system.domain.criteria.TechnicianCriteria">
+        select * from technician where 1=1
+        <include refid="sqlConditionByStatus"/>
+        <include refid="sqlConditionBytName"/>
+        <include refid="sqlConditionBytPhone"/>
+        <include refid="sqlConditionByIDNum"/>
+        <include refid="sqlConditionByMajor"/>
+        <include refid="sqlConditionByID"/>
+        <include refid="sqlConditionByPassword"/>
+        <include refid="sqlConditionByAccount"/>
+    </select>
+    <select id="getAllTechnician" resultMap="BaseResultMap">
+        select * from technician
+    </select>
+    <select id="userLogin" resultMap="BaseResultMap">
+        select * from technician where account = #{account} and pswd=#{pswd}
+    </select>
+    <select id="countTechnicianNum" resultType="java.lang.Integer">
+        select count(*) from technician
+    </select>
+    <sql id="sqlConditionBytName">
+        <if test="null != tName and tName != ''">and tname like CONCAT('%', #{tName,jdbcType=VARCHAR}, '%')
+        </if>
+    </sql>
+    <sql id="sqlConditionBytPhone">
+        <if test="null != tPhone and tPhone != ''">and tPhone = #{tPhone,jdbcType=VARCHAR}</if>
+    </sql>
+    <sql id="sqlConditionByStatus">
+        <if test="null != status and status != ''">and status = #{status,jdbcType=BIGINT}</if>
+    </sql>
+    <sql id="sqlConditionByIDNum">
+        <if test="null != tidNum and tidNum != ''">and tidnum = #{tidNum,jdbcType=VARCHAR}</if>
+    </sql>
+    <sql id="sqlConditionByMajor">
+        <if test="null != tMajor and tMajor != ''">and tmajor = #{tMajor,jdbcType=VARCHAR}</if>
+    </sql>
+    <sql id="sqlConditionByAccount">
+        <if test="null != account and account != ''">and account = #{account,jdbcType=VARCHAR}</if>
+    </sql>
+    <sql id="sqlConditionByPassword">
+        <if test="null != pswd and pswd != ''">and pswd = #{pswd,jdbcType=VARCHAR}</if>
+    </sql>
+    <sql id="sqlConditionByID">
+        <if test="null != tid and tid != ''">and tid = #{tid}</if>
+    </sql>
+</mapper>

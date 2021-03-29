@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.sonjong.system.dao.IUserDAO">
+    <resultMap id="BaseResultMap" type="top.sonjong.system.domain.POJO.UserPOJO">
+        <id column="uid" property="uid" jdbcType="BIGINT"/>
+        <result column="uname" property="uname" jdbcType="VARCHAR"/>
+        <result column="upass" property="uPass" jdbcType="VARCHAR"/>
+        <result column="role" property="role" jdbcType="BIGINT"/>
+        <result column="status" property="status" jdbcType="BIGINT"/>
+        <result column="tid" property="tid" jdbcType="BIGINT"/>
+    </resultMap>
+    <sql id="baseRow">
+        uid,uname,upass,role,status,tid
+    </sql>
+    <insert id="createAccount" parameterType="top.sonjong.system.domain.POJO.UserPOJO">
+        insert into user(uname,upass,role,tid) values (
+                                    #{uname,jdbcType=VARCHAR},
+                                    #{uPass,jdbcType=VARCHAR},
+                                    #{role,jdbcType=BIGINT},
+                                    #{tid,jdbcType=BIGINT}
+                                )
+    </insert>
+    <update id="frozeAccount" parameterType="java.lang.Long">
+        update user set status = '0' where uid=#{uid,jdbcType=BIGINT}
+    </update>
+    <update id="unfreezeAccount" parameterType="java.lang.Long">
+        update user set status = '1' where uid=#{uid,jdbcType=BIGINT}
+    </update>
+    <select id="getRowCount" resultType="java.lang.Integer">
+        select count(*) from user
+    </select>
+    <select id="findPageObjects" resultMap="BaseResultMap">
+        select * from user limit #{startIndex},#{pageSize}
+    </select>
+    <select id="getAllAccount"  resultMap="BaseResultMap">
+        select * from user
+    </select>
+    <select id="getAccountByCondition" resultMap="BaseResultMap"
+            parameterType="top.sonjong.system.domain.criteria.UserCriteria">
+        select * from user where 1=1
+        <include refid="sqlConditionByUname"/>
+        <include refid="sqlConditionByStatus"/>
+        <include refid="sqlConditionByUID"/>
+    </select>
+    <!-- 查询条件:根据账号 -->
+    <sql id="sqlConditionByUname">
+        <if test="null != uname and uname != ''">and uname = #{uname,jdbcType=VARCHAR}</if>
+    </sql>
+
+    <!-- 查询条件:根据状态 -->
+    <sql id="sqlConditionByStatus">
+        <if test="null != status and status != ''">and status = #{status,jdbcType=BIGINT}</if>
+    </sql>
+    <!-- 查询条件:uid -->
+    <sql id="sqlConditionByUID">
+        <if test="null != uid and uid != ''">and uid = #{uid,jdbcType=BIGINT}</if>
+    </sql>
+</mapper>

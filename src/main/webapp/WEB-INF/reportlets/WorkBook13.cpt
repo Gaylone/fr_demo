@@ -1,0 +1,970 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WorkBook xmlVersion="20170720" releaseVersion="10.0.0">
+<TableDataMap>
+<TableData name="ds1" class="com.fr.data.impl.DBTableData">
+<Parameters>
+<Parameter>
+<Attributes name="供应商物资品名"/>
+<O>
+<![CDATA[]]></O>
+</Parameter>
+<Parameter>
+<Attributes name="合同编号"/>
+<O>
+<![CDATA[01]]></O>
+</Parameter>
+<Parameter>
+<Attributes name="物资主数据ID"/>
+<O>
+<![CDATA[]]></O>
+</Parameter>
+<Parameter>
+<Attributes name="物资主数据描述"/>
+<O>
+<![CDATA[]]></O>
+</Parameter>
+</Parameters>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[FRDemo]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[SELECT 
+cpu_ct_material.material_id,
+cpu_ct_material.material_name,
+cpu_ct_material.unit,
+cpu_ct_material.tax_price,
+cpu_ct.billno,
+cpu_ct.subject,
+CASE WHEN cpu_ct.billtype='1' THEN '框架协议' 
+WHEN cpu_ct.billtype='2' THEN '普通合同'
+WHEN cpu_ct.billtype='5' THEN '定期定价'
+END billtype,
+cpu_ct.transtype_name,
+cpu_ct.actualvalidate,
+cpu_ct.actualinvalidate,
+cpu_ct.sup_enterprise_name,
+cpu_ct_material.supply_material_name,
+cpu_ct_material.spec,
+cpu_ct.pur_person_name 
+FROM cpu_contract.cpu_ct cpu_ct INNER JOIN cpu_contract.cpu_ct_material cpu_ct_material ON cpu_ct.id = cpu_ct_material.contract_id 
+WHERE cpu_ct.actualinvalidate > now() 
+AND ('${物资主数据描述}' ="" or cpu_ct_material.material_name like CONCAT('%','${物资主数据描述}','%' ))AND ('${供应商物资品名}' ="" or cpu_ct_material.supply_material_name like CONCAT('%','${供应商物资品名}','%' ))and (cpu_ct_material.material_id = '${物资主数据ID}' or '${物资主数据ID}' = '' )and( cpu_ct.billno = '${合同编号}' or '${合同编号}'='' )
+
+]]></Query>
+<PageQuery>
+<![CDATA[]]></PageQuery>
+</TableData>
+</TableDataMap>
+<Report class="com.fr.report.worksheet.WorkSheet" name="sheet1">
+<ReportPageAttr>
+<HR/>
+<FR/>
+<HC/>
+<FC/>
+</ReportPageAttr>
+<ColumnPrivilegeControl/>
+<RowPrivilegeControl/>
+<RowHeight defaultValue="723900">
+<![CDATA[1143000,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900]]></RowHeight>
+<ColumnWidth defaultValue="2743200">
+<![CDATA[2743200,6286500,5943600,4305300,6362700,6667500,8039100,3581400,4305300,7429500,7772400,7086600,7239000,3657600,5600700,2743200]]></ColumnWidth>
+<CellElementList>
+<C c="0" r="0" s="0">
+<O>
+<![CDATA[查询结果]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="1" r="0" s="0">
+<O>
+<![CDATA[物资主数据ID]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="2" r="0" s="0">
+<O>
+<![CDATA[物资主数据描述]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="3" r="0" s="0">
+<O>
+<![CDATA[主数据单位]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="4" r="0" s="0">
+<O>
+<![CDATA[含税单价]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="5" r="0" s="0">
+<O>
+<![CDATA[合同编号]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="6" r="0" s="0">
+<O>
+<![CDATA[合同名称]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="7" r="0" s="0">
+<O>
+<![CDATA[合同类型]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="8" r="0" s="0">
+<O>
+<![CDATA[合同分类]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="9" r="0" s="0">
+<O>
+<![CDATA[合同生效期]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="10" r="0" s="0">
+<O>
+<![CDATA[合同失效期]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="11" r="0" s="0">
+<O>
+<![CDATA[供应商名称]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="12" r="0" s="0">
+<O>
+<![CDATA[供应商物资品名]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="13" r="0" s="0">
+<O>
+<![CDATA[规格型号]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="14" r="0" s="0">
+<O>
+<![CDATA[采购负责人员名称]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="0" r="1" s="1">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="1" r="1" s="1">
+<O t="DSColumn">
+<Attributes dsName="ds1" columnName="material_id"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper">
+<Attr divideMode="1"/>
+</RG>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="2" r="1" s="1">
+<O t="DSColumn">
+<Attributes dsName="ds1" columnName="material_name"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper">
+<Attr divideMode="1"/>
+</RG>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="3" r="1" s="1">
+<O t="DSColumn">
+<Attributes dsName="ds1" columnName="unit"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper">
+<Attr divideMode="1"/>
+</RG>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="4" r="1" s="2">
+<O t="DSColumn">
+<Attributes dsName="ds1" columnName="tax_price"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper">
+<Attr divideMode="1"/>
+</RG>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="5" r="1" s="1">
+<O t="DSColumn">
+<Attributes dsName="ds1" columnName="billno"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper">
+<Attr divideMode="1"/>
+</RG>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="6" r="1" s="1">
+<O t="DSColumn">
+<Attributes dsName="ds1" columnName="subject"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper">
+<Attr divideMode="1"/>
+</RG>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="7" r="1" s="1">
+<O t="DSColumn">
+<Attributes dsName="ds1" columnName="billtype"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper">
+<Attr divideMode="1"/>
+</RG>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="8" r="1" s="1">
+<O t="DSColumn">
+<Attributes dsName="ds1" columnName="transtype_name"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper">
+<Attr divideMode="1"/>
+</RG>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="9" r="1" s="1">
+<O t="DSColumn">
+<Attributes dsName="ds1" columnName="actualvalidate"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper">
+<Attr divideMode="1"/>
+</RG>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="10" r="1" s="1">
+<O t="DSColumn">
+<Attributes dsName="ds1" columnName="actualinvalidate"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper">
+<Attr divideMode="1"/>
+</RG>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="11" r="1" s="1">
+<O t="DSColumn">
+<Attributes dsName="ds1" columnName="sup_enterprise_name"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper">
+<Attr divideMode="1"/>
+</RG>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="12" r="1" s="1">
+<O t="DSColumn">
+<Attributes dsName="ds1" columnName="supply_material_name"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper">
+<Attr divideMode="1"/>
+</RG>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="13" r="1" s="1">
+<O t="DSColumn">
+<Attributes dsName="ds1" columnName="spec"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper">
+<Attr divideMode="1"/>
+</RG>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="14" r="1" s="1">
+<O t="DSColumn">
+<Attributes dsName="ds1" columnName="pur_person_name"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper">
+<Attr divideMode="1"/>
+</RG>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="0" r="2" s="3">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="1" r="2" s="3">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="2" r="2" s="3">
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="3" r="2" s="3">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="4" r="2" s="3">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="5" r="2" s="3">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="6" r="2" s="3">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="7" r="2" s="3">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="8" r="2" s="3">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="9" r="2" s="3">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="10" r="2" s="3">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="11" r="2" s="3">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="12" r="2" s="3">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="13" r="2" s="3">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="14" r="2" s="3">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="0" r="3" s="4">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="1" r="3" s="4">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="2" r="3" s="4">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="3" r="3" s="4">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="4" r="3" s="4">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="5" r="3" s="4">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="6" r="3" s="4">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="7" r="3" s="4">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="8" r="3" s="4">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="9" r="3" s="4">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="10" r="3" s="4">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="11" r="3" s="4">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="12" r="3" s="4">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="13" r="3" s="4">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="14" r="3" s="4">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="0" r="4" s="4">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="1" r="4" s="4">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="2" r="4" s="4">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="3" r="4" s="4">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="4" r="4" s="4">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="5" r="4" s="4">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="6" r="4" s="4">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="7" r="4" s="4">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="8" r="4" s="4">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="9" r="4" s="4">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="10" r="4" s="4">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="11" r="4" s="4">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="12" r="4" s="4">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="13" r="4" s="4">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="14" r="4" s="4">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="0" r="5" s="4">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="1" r="5" s="4">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="2" r="5" s="4">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="3" r="5" s="4">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="4" r="5" s="4">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="5" r="5" s="4">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="6" r="5" s="4">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="7" r="5" s="4">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="8" r="5" s="4">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="9" r="5" s="4">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="10" r="5" s="4">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="11" r="5" s="4">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="12" r="5" s="4">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="13" r="5" s="4">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="14" r="5" s="4">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="0" r="6" s="4">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="1" r="6" s="4">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="2" r="6" s="4">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="3" r="6" s="4">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="4" r="6" s="4">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="5" r="6" s="4">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="6" r="6" s="4">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="7" r="6" s="4">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="8" r="6" s="4">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="9" r="6" s="4">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="10" r="6" s="4">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="11" r="6" s="4">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="12" r="6" s="4">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="13" r="6" s="4">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="14" r="6" s="4">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="0" r="7" s="4">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="1" r="7" s="4">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="2" r="7" s="4">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="3" r="7" s="4">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="4" r="7" s="4">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="5" r="7" s="5">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="6" r="7" s="4">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="7" r="7" s="4">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="8" r="7" s="4">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="9" r="7" s="4">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="10" r="7" s="4">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="11" r="7" s="4">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="12" r="7" s="4">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="13" r="7" s="4">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="14" r="7" s="4">
+<PrivilegeControl/>
+<Expand/>
+</C>
+</CellElementList>
+<ReportAttrSet>
+<ReportSettings headerHeight="0" footerHeight="0">
+<PaperSetting orientation="1">
+<PaperSize width="144000000" height="144000000"/>
+<Margin top="986400" left="2743200" bottom="986400" right="2743200"/>
+</PaperSetting>
+<Background name="ColorBackground" color="-1"/>
+</ReportSettings>
+</ReportAttrSet>
+<PrivilegeControl/>
+</Report>
+<ReportParameterAttr>
+<Attributes showWindow="true" delayPlaying="true" windowPosition="1" align="1" useParamsTemplate="true" currentIndex="8"/>
+<PWTitle>
+<![CDATA[参数]]></PWTitle>
+<ParameterUI class="com.fr.form.main.parameter.FormParameterUI">
+<Parameters/>
+<Layout class="com.fr.form.ui.container.WParameterLayout">
+<WidgetName name="para"/>
+<WidgetAttr description="">
+<MobileBookMark useBookMark="false" bookMarkName="" frozen="false"/>
+<PrivilegeControl/>
+</WidgetAttr>
+<Margin top="0" left="0" bottom="0" right="0"/>
+<Border>
+<border style="0" color="-723724" borderRadius="0" type="0" borderStyle="0"/>
+<WidgetTitle>
+<O>
+<![CDATA[新建标题]]></O>
+<FRFont name="SimSun" style="0" size="72"/>
+<Position pos="0"/>
+</WidgetTitle>
+<Alpha alpha="1.0"/>
+</Border>
+<Background name="ColorBackground" color="-526086"/>
+<LCAttr vgap="0" hgap="0" compInterval="0"/>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.EditorHolder">
+<WidgetName name="物资主数据描述"/>
+<LabelName name="物资主数据描述:"/>
+<WidgetAttr description="">
+<MobileBookMark useBookMark="false" bookMarkName="" frozen="false"/>
+<PrivilegeControl/>
+</WidgetAttr>
+<widgetValue>
+<O>
+<![CDATA[]]></O>
+</widgetValue>
+</InnerWidget>
+<BoundsAttr x="297" y="29" width="96" height="21"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.Label">
+<WidgetName name="Label物资主数据描述"/>
+<WidgetAttr description="">
+<MobileBookMark useBookMark="false" bookMarkName="" frozen="false"/>
+<PrivilegeControl/>
+</WidgetAttr>
+<widgetValue>
+<O>
+<![CDATA[物资主数据描述:]]></O>
+</widgetValue>
+<LabelAttr verticalcenter="true" textalign="0" autoline="true"/>
+<FRFont name="SimSun" style="0" size="72"/>
+<border style="0" color="-723724"/>
+</InnerWidget>
+<BoundsAttr x="201" y="29" width="96" height="21"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.EditorHolder">
+<WidgetName name="物资主数据ID"/>
+<LabelName name="物资主数据ID:"/>
+<WidgetAttr description="">
+<MobileBookMark useBookMark="false" bookMarkName="" frozen="false"/>
+<PrivilegeControl/>
+</WidgetAttr>
+<widgetValue>
+<O>
+<![CDATA[]]></O>
+</widgetValue>
+</InnerWidget>
+<BoundsAttr x="82" y="29" width="80" height="21"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.Label">
+<WidgetName name="Label物资主数据ID"/>
+<WidgetAttr description="">
+<MobileBookMark useBookMark="false" bookMarkName="" frozen="false"/>
+<PrivilegeControl/>
+</WidgetAttr>
+<widgetValue>
+<O>
+<![CDATA[物资主数据ID:]]></O>
+</widgetValue>
+<LabelAttr verticalcenter="true" textalign="0" autoline="true"/>
+<FRFont name="SimSun" style="0" size="72"/>
+<border style="0" color="-723724"/>
+</InnerWidget>
+<BoundsAttr x="2" y="29" width="80" height="21"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.EditorHolder">
+<WidgetName name="合同编号"/>
+<LabelName name="合同编号:"/>
+<WidgetAttr description="">
+<MobileBookMark useBookMark="false" bookMarkName="" frozen="false"/>
+<PrivilegeControl/>
+</WidgetAttr>
+<widgetValue>
+<O>
+<![CDATA[]]></O>
+</widgetValue>
+</InnerWidget>
+<BoundsAttr x="723" y="29" width="80" height="21"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.Label">
+<WidgetName name="Label合同编号"/>
+<WidgetAttr description="">
+<MobileBookMark useBookMark="false" bookMarkName="" frozen="false"/>
+<PrivilegeControl/>
+</WidgetAttr>
+<widgetValue>
+<O>
+<![CDATA[合同编号:]]></O>
+</widgetValue>
+<LabelAttr verticalcenter="true" textalign="0" autoline="true"/>
+<FRFont name="SimSun" style="0" size="72"/>
+<border style="0" color="-723724"/>
+</InnerWidget>
+<BoundsAttr x="643" y="29" width="80" height="21"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.EditorHolder">
+<WidgetName name="供应商物资品名"/>
+<LabelName name="供应商物资品名:"/>
+<WidgetAttr description="">
+<MobileBookMark useBookMark="false" bookMarkName="" frozen="false"/>
+<PrivilegeControl/>
+</WidgetAttr>
+<widgetValue>
+<O>
+<![CDATA[]]></O>
+</widgetValue>
+</InnerWidget>
+<BoundsAttr x="519" y="29" width="80" height="21"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.Label">
+<WidgetName name="Label供应商物资品名"/>
+<WidgetAttr description="">
+<MobileBookMark useBookMark="false" bookMarkName="" frozen="false"/>
+<PrivilegeControl/>
+</WidgetAttr>
+<widgetValue>
+<O>
+<![CDATA[供应商物资品名:]]></O>
+</widgetValue>
+<LabelAttr verticalcenter="true" textalign="0" autoline="true"/>
+<FRFont name="SimSun" style="0" size="72"/>
+<border style="0" color="-723724"/>
+</InnerWidget>
+<BoundsAttr x="421" y="29" width="98" height="21"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.parameter.FormSubmitButton">
+<WidgetName name="Search"/>
+<LabelName name="物资主数据ID:"/>
+<WidgetAttr description="">
+<MobileBookMark useBookMark="false" bookMarkName="" frozen="false"/>
+<PrivilegeControl/>
+</WidgetAttr>
+<Text>
+<![CDATA[查询]]></Text>
+<Hotkeys>
+<![CDATA[enter]]></Hotkeys>
+</InnerWidget>
+<BoundsAttr x="880" y="29" width="80" height="21"/>
+</Widget>
+<ShowBookmarks showBookmarks="false"/>
+<Sorted sorted="false"/>
+<MobileWidgetList>
+<Widget widgetName="物资主数据ID"/>
+<Widget widgetName="物资主数据描述"/>
+<Widget widgetName="供应商物资品名"/>
+<Widget widgetName="合同编号"/>
+<Widget widgetName="Search"/>
+</MobileWidgetList>
+<FrozenWidgets/>
+<MobileBookMarkStyle class="com.fr.form.ui.mobile.impl.DefaultMobileBookMarkStyle"/>
+<Display display="true"/>
+<DelayDisplayContent delay="true"/>
+<UseParamsTemplate use="true"/>
+<Position position="1"/>
+<Design_Width design_width="960"/>
+<NameTagModified>
+<TagModified tag="Search" modified="true"/>
+<TagModified tag="供应商物资品名" modified="true"/>
+<TagModified tag="合同编号" modified="true"/>
+<TagModified tag="物资主数据ID" modified="true"/>
+<TagModified tag="物资主数据描述" modified="true"/>
+</NameTagModified>
+<WidgetNameTagMap>
+<NameTag name="Search" tag="物资主数据ID:"/>
+<NameTag name="供应商物资品名" tag="供应商物资品名:"/>
+<NameTag name="合同编号" tag="合同编号:"/>
+<NameTag name="物资主数据ID" tag="物资主数据ID:"/>
+<NameTag name="物资主数据描述" tag="物资主数据描述:"/>
+</WidgetNameTagMap>
+<ParamAttr class="com.fr.report.mobile.DefaultMobileParamStyle"/>
+</Layout>
+<DesignAttr width="960" height="80"/>
+</ParameterUI>
+</ReportParameterAttr>
+<StyleList>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="SimSun" style="0" size="80"/>
+<Background name="ColorBackground" color="-256"/>
+<Border>
+<Top style="1"/>
+<Bottom style="1"/>
+<Left style="1"/>
+<Right style="1"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="SimSun" style="0" size="80"/>
+<Background name="NullBackground"/>
+<Border>
+<Top style="1"/>
+<Bottom style="1"/>
+<Left style="1"/>
+<Right style="1"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<Format class="com.fr.base.CoreDecimalFormat" roundingMode="6">
+<![CDATA[#0.00]]></Format>
+<FRFont name="SimSun" style="0" size="80"/>
+<Background name="NullBackground"/>
+<Border>
+<Top style="1"/>
+<Bottom style="1"/>
+<Left style="1"/>
+<Right style="1"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="SimSun" style="0" size="72"/>
+<Background name="NullBackground"/>
+<Border>
+<Top style="1"/>
+<Bottom style="1"/>
+<Left style="1"/>
+<Right style="1"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="SimSun" style="0" size="72"/>
+<Background name="NullBackground"/>
+<Border/>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="SimSun" style="0" size="80"/>
+<Background name="NullBackground"/>
+<Border/>
+</Style>
+</StyleList>
+<DesignerVersion DesignerVersion="KAA"/>
+<PreviewType PreviewType="0"/>
+<TemplateIdAttMark class="com.fr.base.iofile.attr.TemplateIdAttrMark">
+<TemplateIdAttMark TemplateId="63728692-8bda-44a7-af15-18c38d3feb9f"/>
+</TemplateIdAttMark>
+</WorkBook>

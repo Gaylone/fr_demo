@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+		<meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="format-detection" content="telephone=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta content="black" name="apple-mobile-web-app-status-bar-style">
+		<link href="asserts/css/SYSFrame.css" rel="stylesheet" type="text/css" />
+		<link href="asserts/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+		<link href="asserts/font/iconfont.css" rel="stylesheet" type="text/css" />
+		<link href="asserts/css/module.css" rel="stylesheet" type="text/css" />
+		<link href="asserts/css/pages.css" rel="stylesheet" type="text/css" />
+		<title>账号信息</title>
+		<script src="asserts/js/jquery-3.4.1.min.js" type="text/javascript"></script>
+		<script src="asserts/js/jquery.cookie.js" type="text/javascript"></script>
+		<script src="asserts/js/jquery.nicescroll.js" type="text/javascript"></script>
+		<script src="asserts/js/HUpages.js" type="text/javascript"></script>
+		<script src="asserts/js/common.js" type="text/javascript"></script>
+		<script src="asserts/js/template.js" type="text/javascript"></script>
+		<script src="asserts/js/bootstrap.min.js" type="text/javascript"></script>
+		<script src="asserts/js/other/admins.js" type="text/javascript"></script>
+		<!--[if lt IE 9]>
+          <script src="asserts/js/html5shiv.js" type="text/javascript"></script>
+          <script src="asserts/js/css3-mediaqueries.js"  type="text/javascript"></script>
+        <![endif]-->
+	</head>
+
+	<body id="pagestyle" class="backgrounddd">
+		<div class="bk-con-message message-section" id="iframe_box">
+			<div class="box-module height100b margin0">
+				<div class="box-title">登录消息记录</div>
+				<div class="box-content padding15">
+					<div class="border-line mb15  mt15  padding0">
+						<div class="title-name">当前登录账户信息</div>
+						<div class="padding15" id="user-info">
+							<ul class="clearfix info_list">
+								<li class="col-xs-4 col-md-3 content_look"><label class="label_name">用户名：</label><span class="info_data">13348450514</span></li>
+								<li class="col-xs-4 col-md-3 content_look"><label class="label_name">登录时间：</label><span class="info_data">2021-03-04 18:30:24</span></li>
+								<li class="col-xs-4 col-md-3 content_look"><label class="label_name">登录地点：</label><span class="info_data">厦门市湖里区</span></li>
+								<li class="col-xs-4 col-md-3 content_look"><label class="label_name">登录IP：</label><span class="info_data">127.0.0.1</span></li>
+								<li class="col-xs-4 col-md-3 content_look"><label class="label_name">密码服务：</label>
+									<span class="info_data">
+										<a data-toggle="modal" data-target="#myModal">修改</a>
+								    </span>
+								</li>
+							</ul>
+						</div>
+					</div>
+
+
+					<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+									<h4 class="modal-title" id="myModalLabel">Modal title</h4>
+								</div>
+								<div class="modal-body">
+									<div class="form-group">
+										<label for="newPass1">新密码</label>
+										<input type="password" class="form-control" id="newPass1" placeholder="Password">
+									</div>
+									<div class="form-group">
+										<label for="newPass2">确认新密码</label>
+										<input type="password" class="form-control" id="newPass2" placeholder="Password">
+									</div>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+									<button type="button" class="btn btn-primary" id="confirmChangeP">保存</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="clearfix ptb20" id="recordinglist">
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+
+</html>
+<script id="recordinghtml" type="text/html">
+	<table class="table  table_striped table-bordered border" id="tableList">
+		<thead>
+			<tr>
+				<th class="align">登录IP</th>
+				<th class="align">登录账户</th>
+				<th class="align">登录地点</th>
+				<th width="200px" class="align">登录时间</th>
+			</tr>
+		</thead>
+		<tbody>
+			<% for(var i = 0; i < list.length; i++) { %>
+			<tr>
+
+				<td>
+					<%=list[i].ip%>
+				</td>
+				<td>
+					<%=list[i].name%>
+				</td>
+				<td>
+					<%=list[i].address%>
+				</td>
+				<td>
+					<%=timestamp(list[i].starttime,'yyyy-MM-dd hh:mm')%>
+				</td>
+
+			</tr>
+			<% } %>
+		</tbody>
+	</table>
+</script>
+<script>
+	$(function() {
+		$("#pagestyle").Hupage({
+			slide: '#breadcrumb',
+			scrollbar: function(e) {
+				e.niceScroll({
+					cursorcolor: "#dddddd",
+					cursoropacitymax: 1,
+					touchbehavior: false,
+					cursorwidth: "3px",
+					cursorborder: "0",
+					cursorborderradius: "3px",
+				});
+			},
+			expand: function(thisBox, settings) {
+				settings.scrollbar($(".box-content").css({
+						height: $(window).height() - $('.box-title').outerHeight() - (settings.padding*2)
+					})); //设置当前页滚动样式
+			}
+		})
+	});
+	//编辑数据
+	var defray = function(callback) {
+		$.ajax({
+			url: "json/userData.json",
+			type: "GET",
+			dataType: 'json',
+			success: function(ret) {
+				typeof callback == 'function' && callback(ret);
+			},
+		});
+	};
+	defray(function(listArr) {
+		var listhtml = $('#recordinglist');
+		var Infohtml = $("#user-info");
+		var html = template('recordinghtml', {
+			list: listArr.data
+		});
+		listhtml.append(html);
+		Infohtml.html(userinfo);
+		new TableSorter("tableList", 4, 5, 6); //设置
+	});
+</script>

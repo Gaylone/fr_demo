@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.sonjong.system.dao.IAquaticProductsDAO">
+    <resultMap id="BaseResultMap" type="top.sonjong.system.domain.POJO.AquaticProductsPOJO">
+        <id column="aid" property="aid" jdbcType="BIGINT"/>
+        <result column="atype" property="aType" jdbcType="VARCHAR"/>
+    </resultMap>
+    <insert id="addAquaticProducts" parameterType="top.sonjong.system.domain.POJO.AquaticProductsPOJO">
+        insert into Aquatic_Products (atype) values ( #{aType} )
+    </insert>
+    <select id="getAquaticProducts" resultMap="BaseResultMap">
+        select * from Aquatic_Products
+    </select>
+    <select id="getAquaticProductsByCondition" resultMap="BaseResultMap" parameterType="String">
+        select * from Aquatic_Products where 1=1 and atype = #{aType,jdbcType=VARCHAR}
+    </select>
+    <select id="countProducts" resultType="java.lang.Integer">
+        select count(*) from Aquatic_products
+    </select>
+
+</mapper>

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.sonjong.system.dao.IIndustryDAO">
+    <resultMap id="BaseResultMap" type="top.sonjong.system.domain.POJO.IndustryPOJO">
+        <id column="iid" property="iid" jdbcType="BIGINT"/>
+        <result column="i_pid" property="i_pid" jdbcType="VARCHAR"/>
+        <result column="pName" property="pName" jdbcType="VARCHAR"/>
+        <result column="total_harvest" property="total_harvest" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="BIGINT"/>
+        <result column="harvestdate" property="harvestDate" jdbcType="VARCHAR"/>
+        <result column="total_cost" property="total_cost" jdbcType="VARCHAR"/>
+    </resultMap>
+    <insert id="addIndustry" parameterType="top.sonjong.system.domain.POJO.IndustryPOJO">
+        insert into industry (i_pid,total_cost) values (
+                                                        #{i_pid},#{total_cost}
+                                                       )
+    </insert>
+
+    <update id="updateIndustry" parameterType="top.sonjong.system.domain.POJO.IndustryPOJO">
+        update industry
+        <trim prefix="set" suffixOverrides=",">
+            <if test="total_harvest!=null">total_harvest=#{total_harvest},</if>
+            <if test="harvestDate!=null">harvestDate=#{harvestDate},</if>
+            <if test="total_cost!=null">total_cost=total_cost+#{total_cost},</if>
+        </trim>
+            ,status=1
+        where iid=#{iid}
+    </update>
+
+    <select id="getAllIndustry" resultMap="BaseResultMap">
+        select iid,ponds.pName,total_cost,harvestdate,total_harvest,status from industry left join ponds on industry.i_pid=ponds.pid
+    </select>
+    <select id="findIndustryByCondition" resultMap="BaseResultMap" parameterType="top.sonjong.system.domain.criteria.IndustryCriteria">
+        select iid,i_pid,ponds.pName,total_cost,harvestdate,total_harvest,status from industry left join ponds on industry.i_pid=ponds.pid
+        where 1=1
+        <include refid="ByHarvestDate"></include>
+        <include refid="ByIID"></include>
+        <include refid="ByIPID"></include>
+        <include refid="ByPName"></include>
+        <include refid="ByStatus"></include>
+    </select>
+    <sql id="ByIPID">
+        <if test=" i_pid != null and i_pid != ''">
+            and i_pid=#{i_pid}
+        </if>
+    </sql>
+    <sql id="ByPName">
+        <if test=" pName != null and pName != ''">
+            and pname=#{pName}
+        </if>
+    </sql>
+    <sql id="ByIID">
+        <if test=" iid != null and iid != ''">
+            and iid=#{iid}
+        </if>
+    </sql>
+    <sql id="ByHarvestDate">
+        <if test=" minDate != null and minDate != ''">
+            and HarvestDate>=#{minDate}
+        </if>
+        <if test=" maxDate != null and maxDate != ''">
+            and HarvestDate <![CDATA[<]]>= #{maxDate}
+        </if>
+    </sql>
+    <sql id="ByStatus">
+        <if test=" status == 1">
+            and status =1
+        </if>
+        <if test=" status == 0">
+            and status =0
+        </if>
+    </sql>
+    <resultMap id="DetailResultMap" type="top.sonjong.system.domain.POJO.IndustryDetailPOJO">
+        <id column="iid" property="iid" jdbcType="BIGINT"/>
+        <result column="atype" property="aType" jdbcType="VARCHAR"/>
+        <result column="pre_num" property="pre_num" jdbcType="BIGINT"/>
+        <result column="weight" property="weight" jdbcType="VARCHAR"/>
+        <result column="unit_price" property="unit_price" jdbcType="VARCHAR"/>
+    </resultMap>
+    <insert id="addIndustryDetail" parameterType="List">
+        insert into industry_detail(iid,atype,pre_num)values
+        <foreach collection="List" item="detail" index="index" separator=",">
+        (#{detail.iid},#{detail.aType},#{detail.pre_num})
+        </foreach>
+    </insert>
+    <update id="updateIndustryDetail" parameterType="top.sonjong.system.domain.POJO.IndustryDetailPOJO">
+        update industry_detail set weight=#{weight},unit_price=#{unit_price} where iid=#{iid} and atype=#{aType}
+    </update>
+    <select id="getIndustryDetailByID" resultMap="DetailResultMap" parameterType="java.lang.Long">
+        select * from industry_detail where iid=#{iid}
+    </select>
+    <select id="countIndustry" resultType="java.lang.Integer">
+        select count(*) from industry
+    </select>
+</mapper>

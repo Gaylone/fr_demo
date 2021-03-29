@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.sonjong.system.dao.IFarmerDAO">
+    <resultMap id="BaseResultMap" type="top.sonjong.system.domain.POJO.FarmerPOJO">
+        <id column="fid" property="fid" jdbcType="BIGINT"/>
+        <result column="fname" property="fName" jdbcType="VARCHAR"/>
+        <result column="fidnum" property="fIdNum" jdbcType="VARCHAR"/>
+        <result column="fsex" property="fSex" jdbcType="VARCHAR"/>
+        <result column="fbirthday" property="fBirthday" jdbcType="VARCHAR"/>
+        <result column="faddress" property="fAddress" jdbcType="VARCHAR"/>
+        <result column="fphone" property="fPhone" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="BIGINT"/>
+    </resultMap>
+    <insert id="addFarmer" parameterType="top.sonjong.system.domain.POJO.FarmerPOJO">
+        insert into farmer(fname,fidnum,fsex,fbirthday,faddress,fphone)
+        values (
+                #{fName,jdbcType=VARCHAR},#{fIdNum,jdbcType=VARCHAR},
+                #{fSex,jdbcType=VARCHAR},#{fBirthday,jdbcType=VARCHAR },
+                #{fAddress,jdbcType=VARCHAR },#{fPhone,jdbcType=VARCHAR }
+               )
+    </insert>
+
+    <update id="freezeFarmer" parameterType="java.lang.Long">
+        update farmer set status=1 where fid=#{fid,jdbcType=BIGINT}
+    </update>
+
+    <update id="activeFarmer" parameterType="java.lang.Long">
+        update farmer set status=0 where fid=#{fid,jdbcType=BIGINT}
+    </update>
+    <update id="updateFarmerInfo" parameterType="top.sonjong.system.domain.POJO.FarmerPOJO">
+        update farmer
+            <trim prefix="set" suffixOverrides=",">
+                <if test="fName!=null">fname=#{fName,jdbcType=VARCHAR},</if>
+                <if test="fIdNum!=null">fidnum=#{fIdNum,jdbcType=VARCHAR},</if>
+                <if test="fSex!=null">fsex= #{fSex,jdbcType=VARCHAR},</if>
+                <if test="fBirthday!=null">fbirthday=#{fBirthday,jdbcType=VARCHAR },</if>
+                <if test="fAddress!=null">faddress=#{fAddress,jdbcType=VARCHAR },</if>
+                <if test="fPhone!=null">fphone=#{fPhone,jdbcType=VARCHAR },</if>
+            </trim>
+            where fid=#{fid,jdbcType=BIGINT}
+    </update>
+
+    <select id="findFarmersByConditions" resultMap="BaseResultMap"
+     parameterType="top.sonjong.system.domain.criteria.FarmerCriteria">
+        select * from farmer where 1=1
+        <include refid="sqlConditionByStatus"/>
+        <include refid="sqlConditionByfName"/>
+        <include refid="sqlConditionByfPhone"/>
+        <include refid="sqlConditionByIDNum"/>
+        <include refid="sqlConditionByID"/>
+    </select>
+
+    <select id="getAllFarmers" resultMap="BaseResultMap">
+        SELECT * from farmer order by `status`
+    </select>
+    <select id="countFarmerNum" resultType="java.lang.Integer">
+        select count(*) from  farmer where status=0
+    </select>
+
+    <sql id="sqlConditionByfName">
+        <if test=" fName != null and fName != ''">and fname like CONCAT('%', #{fName,jdbcType=VARCHAR}, '%')
+            </if>
+    </sql>
+    <sql id="sqlConditionByfPhone">
+        <if test=" fPhone != null and fPhone != ''">and fPhone = #{fPhone,jdbcType=VARCHAR}</if>
+    </sql>
+    <sql id="sqlConditionByStatus">
+        <if test=" status != null  and status != ''">and status = #{status,jdbcType=BIGINT}</if>
+    </sql>
+    <sql id="sqlConditionByIDNum">
+        <if test="fIdNum != null  and fIdNum != ''">and fidnum = #{fIdNum,jdbcType=VARCHAR}</if>
+    </sql>
+    <sql id="sqlConditionByID">
+        <if test=" fid != null and fid != ''">and fid = #{fid}</if>
+    </sql>
+</mapper>

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.sonjong.system.dao.ICaseDAO">
+    <resultMap id="BaseResultMap" type="top.sonjong.system.domain.POJO.CasePOJO">
+        <id column="cid" property="cid" jdbcType="BIGINT"/>
+        <result column="c_did" property="c_did" jdbcType="BIGINT"/>
+        <result column="c_tid" property="c_tid" jdbcType="BIGINT"/>
+        <result column="c_pid" property="c_pid" jdbcType="BIGINT"/>
+        <result column="content" property="content" jdbcType="VARCHAR"/>
+        <result column="title" property="title" jdbcType="VARCHAR"/>
+        <result column="solution" property="solution" jdbcType="VARCHAR"/>
+        <result column="loss" property="loss" jdbcType="VARCHAR"/>
+        <result column="date" property="date" jdbcType="VARCHAR"/>
+        <!--查询拓展：疾病-->
+        <result column="did" property="did" jdbcType="BIGINT"/>
+        <result column="dname" property="dName" jdbcType="VARCHAR"/>
+        <result column="memo" property="memo" jdbcType="VARCHAR"/>
+        <!--查询拓展：池塘-->
+        <result column="pid" property="pid" jdbcType="BIGINT"/>
+        <result column="paddress" property="pAddress" jdbcType="VARCHAR"/>
+        <result column="psize" property="pSize" jdbcType="VARCHAR"/>
+        <result column="ptype" property="pType" jdbcType="VARCHAR"/>
+        <result column="p_fid" property="p_fid" jdbcType="BIGINT"/>
+        <result column="pname" property="pName" jdbcType="VARCHAR"/>
+        <result column="pstatus" property="pStatus" jdbcType="BIGINT"/>
+        <!--查询拓展：技术员-->
+        <result column="tid" property="tid" jdbcType="BIGINT"/>
+        <result column="tname" property="tName" jdbcType="VARCHAR"/>
+        <result column="tidnum" property="tidNum" jdbcType="VARCHAR"/>
+        <result column="account" property="account" jdbcType="VARCHAR"/>
+        <result column="pswd" property="pswd" jdbcType="VARCHAR"/>
+        <result column="tphone" property="tPhone" jdbcType="VARCHAR"/>
+        <result column="tsex" property="tSex" jdbcType="VARCHAR"/>
+        <result column="tmajor" property="tMajor" jdbcType="VARCHAR"/>
+        <result column="role" property="role" jdbcType="BIGINT"/>
+        <!--查询拓展：养殖户-->
+        <result column="fid" property="fid" jdbcType="BIGINT"/>
+        <result column="fname" property="fName" jdbcType="VARCHAR"/>
+        <result column="fidnum" property="fIdNum" jdbcType="VARCHAR"/>
+        <result column="fsex" property="fSex" jdbcType="VARCHAR"/>
+        <result column="fbirthday" property="fBirthday" jdbcType="VARCHAR"/>
+        <result column="faddress" property="fAddress" jdbcType="VARCHAR"/>
+        <result column="fphone" property="fPhone" jdbcType="VARCHAR"/>
+    </resultMap>
+    <insert id="saveCase" parameterType="top.sonjong.system.domain.POJO.CasePOJO">
+        insert into `case` (c_did,c_tid,c_pid,content,title,solution,date,loss)
+         values (
+                   #{c_did},
+                   #{c_tid},
+                   #{c_pid},
+                   #{content},
+                   #{title},
+                   #{solution},
+                   #{date},
+                   #{loss}
+                )
+    </insert>
+
+    <select id="getCaseByCondition" resultMap="BaseResultMap">
+        select * from ((`case`INNER JOIN disease ON c_did=disease.did)
+        INNER JOIN technician on c_tid=technician.tid)
+            INNER JOIN (ponds INNER JOIN farmer on p_fid=fid) on c_pid = ponds.pid
+        where 1=1
+        <include refid="sqlConditionByPond"/>
+        <include refid="sqlConditionByTitle"/>
+        <include refid="sqlConditionByTechMan"/>
+        <include refid="sqlConditionByID"/>
+        order by date desc
+    </select>
+
+    <select id="getAllCase" resultMap="BaseResultMap">
+        select * from ((`case`INNER JOIN disease ON c_did=disease.did)
+            INNER JOIN technician on c_tid=technician.tid) INNER JOIN (ponds INNER JOIN farmer on p_fid=fid) on c_pid = ponds.pid
+    </select>
+    <select id="countCase" resultType="java.lang.Integer">
+        select count(*) from `case`
+    </select>
+    <sql id="sqlConditionByPond">
+        <if test="null != c_pid and c_pid != ''">and c_pid = #{c_pid} </if>
+    </sql>
+    <sql id="sqlConditionByTitle">
+        <if test="null != title and title != ''">and title like CONCAT('%', #{title}, '%') </if>
+    </sql>
+    <sql id="sqlConditionByTechMan">
+        <if test="null != c_tid and c_tid != ''">and c_tid = #{c_tid} </if>
+    </sql>
+    <sql id="sqlConditionByID">
+        <if test="null != cid and cid != ''">and cid = #{cid} </if>
+    </sql>
+
+    <sql id="sqlConditionByDID">
+        <if test="null != c_did and c_did != ''">and c_did = #{c_did} </if>
+    </sql>
+</mapper>
