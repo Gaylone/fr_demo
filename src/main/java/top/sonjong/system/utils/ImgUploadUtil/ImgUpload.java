@@ -13,8 +13,7 @@ public class ImgUpload {
     public static String upload(MultipartFile multipartFile, HttpServletRequest request){
         try {
             // 获取项目路径
-            String realPath = request.getSession().getServletContext()
-                    .getRealPath("");
+            String realPath = request.getSession().getServletContext().getRealPath("");
             InputStream inputStream = multipartFile.getInputStream();
             String contextPath = request.getContextPath();
             // 服务器根目录的路径

@@ -71,6 +71,7 @@
     <select id="getAllCase" resultMap="BaseResultMap">
         select * from ((`case`INNER JOIN disease ON c_did=disease.did)
             INNER JOIN technician on c_tid=technician.tid) INNER JOIN (ponds INNER JOIN farmer on p_fid=fid) on c_pid = ponds.pid
+                order by date desc
     </select>
     <select id="countCase" resultType="java.lang.Integer">
         select count(*) from `case`

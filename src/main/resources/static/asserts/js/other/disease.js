@@ -3,7 +3,7 @@ $(document).ready(function() {
     $("#dName").blur(function(){
         var data={"dName":$("#dName").val()}
         if($("#dName").val()==null||$("#dName").val()==""){
-            var checkName=0;
+             checkName=0;
             $("#dNameMassage").text("渔病名称不得为空");
         }else {
             $.ajax({

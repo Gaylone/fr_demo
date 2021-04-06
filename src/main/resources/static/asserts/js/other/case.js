@@ -85,10 +85,9 @@ $(document).ready(function() {
     })
     check()
     $("#saveCase").click(function (){
-        if(hasDisease==true&&hasPonds==true
-            &&hasLoss==true&&hasContent==true
-            &&hasFarmer==true&&hasSolution==true
-            &&hasTitle==true){
+        if(hasDisease==true&&hasPonds==true &&hasLoss==true&&hasFarmer==true
+            &&hasSolution==true &&hasTitle==true&& editor.txt.html()!=null&&
+            editor.txt.html()!=""){
             $.ajax({
                 url:"case/saveCase",
                 method:"post",
@@ -118,15 +117,8 @@ $(document).ready(function() {
 
 })
 function check(){
-    $("#div1").blur(function (){
-        if (editor.txt.html()==null||editor.txt.html()==""){
-            hasContent=false;
-            $("#contentMsg").text("病历内容不得为空")
-        }else {
-            hasContent=true;
-            $("#contentMsg").text("")
-        }
-    })
+
+
     $("#loss").blur(function (){
         if ($("#loss").val()==null||$("#loss").val()==""){
             hasLoss=false;
@@ -137,6 +129,7 @@ function check(){
                 $("#lossMsg").text("必须是数字")
                 hasLoss=false;
             }else{
+                $("#lossMsg").text("")
                 hasLoss=true;
             }
         }
@@ -165,17 +158,9 @@ function isNumber(value) {         //验证是否为数字
     }
 }
 function showDetail(cid){
-    $("#titleLab").text("")
-    $("#farmerLab").text("")
-    $("#FarmerPhoneLab").text("")
-    $("#pondLab").text("")
-    $("#pondAddressLab").text("")
-    $("#diseaseLab").text("")
-    $("#content").html("")
-    $("#lossLab").text("")
-    $("#solutionLab").text("")
-    $("#techManLab").text("")
-    $("#techManPhoneLab").text("")
+    $("#titleLab").text("");$("#farmerLab").text("");$("#FarmerPhoneLab").text("")
+    $("#pondLab").text("");$("#pondAddressLab").text("");$("#diseaseLab").text("");$("#content").html("")
+    $("#lossLab").text("");$("#solutionLab").text("");$("#techManLab").text("");$("#techManPhoneLab").text("")
     $.ajax({
         url:"case/getCaseByCID/"+cid,
         dataType:"json",

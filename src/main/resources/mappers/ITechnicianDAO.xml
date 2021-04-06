@@ -11,22 +11,17 @@
         <result column="tsex" property="tSex" jdbcType="VARCHAR"/>
         <result column="tmajor" property="tMajor" jdbcType="VARCHAR"/>
         <result column="role" property="role" jdbcType="BIGINT"/>
+        <result column="status" property="status" jdbcType="BIGINT"/>
     </resultMap>
     <insert id="addTechnician" parameterType="top.sonjong.system.domain.POJO.TechnicianPOJO">
-        insert into technician (tname,tidnum,tphone,tsex,tmajor,account,pswd)
+        insert into technician (tname,tidnum,tphone,tsex,tmajor,account)
         values (
                    #{tName,jdbcType=VARCHAR},#{tidNum,jdbcType=VARCHAR},
                    #{tPhone,jdbcType=VARCHAR},#{tSex,jdbcType=VARCHAR},
-                   #{tMajor,jdbcType=VARCHAR },#{account,jdbcType=VARCHAR },
-                   #{pswd,jdbcType=VARCHAR }
+                   #{tMajor,jdbcType=VARCHAR },#{account,jdbcType=VARCHAR }
                )
     </insert>
-    <update id="freezeTechnician" parameterType="java.lang.Long">
-        update technician set status=1 where tid=#{tid,jdbcType=BIGINT}
-    </update>
-    <update id="activeTechnician" parameterType="java.lang.Long">
-        update technician set status=0 where tid=#{tid,jdbcType=BIGINT}
-    </update>
+
     <update id="updateTechnicianInfo" parameterType="top.sonjong.system.domain.POJO.TechnicianPOJO">
         update technician
         <trim prefix="set" suffixOverrides=",">
@@ -35,13 +30,19 @@
             <if test="tSex!=null">tsex= #{tSex,jdbcType=VARCHAR},</if>
             <if test="tMajor!=null">tmajor=#{tMajor,jdbcType=VARCHAR },</if>
             <if test="tPhone!=null">tphone=#{tPhone,jdbcType=VARCHAR },</if>
+            <if test="pswd!=null and pswd!=''">pswd=#{pswd,jdbcType=VARCHAR },</if>
         </trim>
         where tid=#{tid,jdbcType=BIGINT}
+    </update>
+    <update id="freezeTechnician" parameterType="Long">
+        update technician set `status` = 1 where tid =#{tid}
+    </update>
+    <update id="activeTechnician" parameterType="Long">
+        update technician set `status` = 0 where tid =#{tid}
     </update>
     <select id="findTechnicianByConditions" resultMap="BaseResultMap"
             parameterType="top.sonjong.system.domain.criteria.TechnicianCriteria">
         select * from technician where 1=1
-        <include refid="sqlConditionByStatus"/>
         <include refid="sqlConditionBytName"/>
         <include refid="sqlConditionBytPhone"/>
         <include refid="sqlConditionByIDNum"/>
@@ -51,13 +52,13 @@
         <include refid="sqlConditionByAccount"/>
     </select>
     <select id="getAllTechnician" resultMap="BaseResultMap">
-        select * from technician
+        select * from technician order by `status` asc
     </select>
     <select id="userLogin" resultMap="BaseResultMap">
-        select * from technician where account = #{account}
+        select * from technician where account = #{account} and `status`=0
     </select>
     <select id="countTechnicianNum" resultType="java.lang.Integer">
-        select count(*) from technician
+        select count(*) from technician and `status`=0
     </select>
     <sql id="sqlConditionBytName">
         <if test="null != tName and tName != ''">and tname like CONCAT('%', #{tName,jdbcType=VARCHAR}, '%')
@@ -65,9 +66,6 @@
     </sql>
     <sql id="sqlConditionBytPhone">
         <if test="null != tPhone and tPhone != ''">and tPhone = #{tPhone,jdbcType=VARCHAR}</if>
-    </sql>
-    <sql id="sqlConditionByStatus">
-        <if test="null != status and status != ''">and status = #{status,jdbcType=BIGINT}</if>
     </sql>
     <sql id="sqlConditionByIDNum">
         <if test="null != tidNum and tidNum != ''">and tidnum = #{tidNum,jdbcType=VARCHAR}</if>

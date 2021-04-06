@@ -2,6 +2,8 @@ package top.sonjong.system.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +23,7 @@ import java.util.Date;
 @Controller
 @RequestMapping("/case")
 public class CaseController {
+    private static final Logger logger = LoggerFactory.getLogger(CaseController.class);
     @Autowired
     private ICaseService caseService;
 
@@ -46,6 +49,7 @@ public class CaseController {
         casePOJO.setC_tid(technicianPOJO.getTid());
         int flag = caseService.saveCase(casePOJO);
         if (flag==1){
+
             return "success";
         }else {
             return "error";
@@ -57,6 +61,7 @@ public class CaseController {
         CaseCriteria caseCriteria = new CaseCriteria();
         caseCriteria.setCid(cid);
         CasePOJO casePOJO = caseService.getCaseByCondition(caseCriteria).get(0);
+        logger.info("记录日志：通过ID获取病历{}",cid);
         return JSON.toJSONString(casePOJO);
     }
     @RequestMapping(value = "/countCase",method = RequestMethod.POST)

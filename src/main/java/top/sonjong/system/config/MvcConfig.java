@@ -31,23 +31,26 @@ public class MvcConfig implements WebMvcConfigurer {
         StringHttpMessageConverter converter = new StringHttpMessageConverter(Charset.forName("UTF-8"));
         return converter;
     }
-
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
+        //其中image表示访问的前缀。"file:X:/xxx/"是文件真实的存储路径
+        registry.addResourceHandler("/uploadImgs/**").addResourceLocations("file:"+ ImgUpload.IMG_SAVE_LOCATION);
+    }
     //2.跳转中文乱码2
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
         converters.add(responseBodyConverter());
     }
-    //登录拦截器
+    //登录拦截路径
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new LoginHandlerInterceptor()).addPathPatterns("/industry","/index_home","/diseases","/farmer","/ponds",
-                "/products","/farmerManage","/pondsManage","/productList","/industryList","/diseaseList")
+        registry.addInterceptor(new LoginHandlerInterceptor())
+                .addPathPatterns("/industry","/index_home",
+                "/diseases","/farmer","/ponds",
+                "/products","/farmerManage","/pondsManage",
+                "/productList","/industryList","/diseaseList")
                 .excludePathPatterns("/login","/");
     }
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
-        //其中image表示访问的前缀。"file:F:/img/"是文件真实的存储路径
-        registry.addResourceHandler("/uploadImgs/**").addResourceLocations("file:"+ ImgUpload.IMG_SAVE_LOCATION);
-    }
+
 }

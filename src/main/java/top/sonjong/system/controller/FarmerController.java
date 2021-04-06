@@ -12,18 +12,14 @@ import top.sonjong.system.domain.criteria.FarmerCriteria;
 import java.util.List;
 
 @Controller
-@CrossOrigin
 @RequestMapping("/farmer")
 public class FarmerController {
     @Autowired
     private IFarmerService farmerService;
-
     @ResponseBody
     @RequestMapping("/getAllFarmer")
     public String getAllFarmer(){
-
         List<FarmerPOJO> farmerPOJOList=farmerService.getAllFarmers();
-
         return JSON.toJSONString(farmerPOJOList);
     }
     @ResponseBody
@@ -37,7 +33,6 @@ public class FarmerController {
         }else {
             return "0";
         }
-
     }
     @ResponseBody
     @RequestMapping(value = "/saveFarmer",method = RequestMethod.POST)

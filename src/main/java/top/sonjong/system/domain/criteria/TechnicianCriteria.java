@@ -14,6 +14,23 @@ public class TechnicianCriteria implements Serializable {
     private String tSex;
     private String tMajor;
     private Integer role;
+    private Integer status;
+
+    public String getPswd() {
+        return pswd;
+    }
+
+    public void setPswd(String pswd) {
+        this.pswd = pswd;
+    }
+
+    public Integer getRole() {
+        return role;
+    }
+
+    public void setRole(Integer role) {
+        this.role = role;
+    }
 
     public Integer getStatus() {
         return role;
@@ -79,11 +96,5 @@ public class TechnicianCriteria implements Serializable {
         this.account = account;
     }
 
-    public String getPass() {
-        return pswd;
-    }
 
-    public void setPass(String pswd) {
-        this.pswd = pswd;
-    }
 }

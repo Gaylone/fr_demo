@@ -45,8 +45,8 @@
 							<a class="user-info clickBombbox colorF" href="javascript:void(0)" data-position="bottom" data-type="arrow">欢迎您:<span th:text="${session.currentUser.tName}"></span><i class="iconfont">&#xe630</i></a>
 							<div class="Bombbox">
 								<ul class="usercz menulist">
-									<li class="column-name">
-										<a href="javascript:void(0)" title="个人信息" class="menuUl_title" name="administrators.html" data-id="111"><i class="iconfont icon-guanliyuan"></i>个人信息</a>
+									<li class="column-name"th:if="${session.currentUser.role==1}">
+										<a  href="javascript:void(0)" title="个人信息" class="menuUl_title" name="administrators.html" data-id="111"><i class="iconfont icon-guanliyuan"></i>个人信息</a>
 									</li>
 									<li>
 										<a href="javascript:void(0)" class="" onclick="dropout()"><i class="iconfont ">&#xe64f</i>退出登录</a>

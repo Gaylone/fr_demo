@@ -13,6 +13,23 @@ public class TechnicianPOJO implements Serializable {
     private String tSex;
     private String tMajor;
     private Integer role;
+    private Integer status;
+
+    public String getPswd() {
+        return pswd;
+    }
+
+    public void setPswd(String pswd) {
+        this.pswd = pswd;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
 
     public Integer getRole() {
         return role;
@@ -78,11 +95,5 @@ public class TechnicianPOJO implements Serializable {
         this.account = account;
     }
 
-    public String getPass() {
-        return pswd;
-    }
 
-    public void setPass(String pswd) {
-        this.pswd = pswd;
-    }
 }

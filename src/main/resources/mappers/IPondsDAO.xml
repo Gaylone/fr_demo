@@ -40,8 +40,6 @@
     <update id="fillPond" parameterType="java.lang.Long">
         update ponds set pstatus=2 where pid=#{pid,jdbcType=BIGINT}
     </update>
-
-
     <select id="countAllPond" resultType="java.lang.Integer">
         select count(*) from ponds where pstatus != 2
     </select>

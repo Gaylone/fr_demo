@@ -1,34 +1,37 @@
 package top.sonjong.system.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import top.sonjong.system.API.ITechnicianService;
-import top.sonjong.system.domain.POJO.TechnicianPOJO;
-import top.sonjong.system.utils.MD5Util;
-
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.io.IOException;
-import java.io.PrintWriter;
 
 @Controller
+@RequestMapping("/techMan")
 public class TechnicianController {
     @Autowired
     private ITechnicianService technicianService;
 
-    @RequestMapping("/portal")
-    public String userLogin(String account,String pswd, HttpSession session, HttpServletResponse response) throws IOException {
-        TechnicianPOJO currentUser = technicianService.userLogin(account);
-        response.setCharacterEncoding("UTF-8");
-        PrintWriter out = response.getWriter();
-        if(MD5Util.verify(pswd, currentUser.getPass())){
-            session.setAttribute("currentUser",currentUser);
-            return "index";
-        }else{
-            out.write("<script>alert('用户名或密码错误')</script>");
-            return "login";
+    @RequestMapping(value = "/active",method = RequestMethod.POST)
+    @ResponseBody
+    public String active(@RequestBody JSONObject param){
+
+        Long tid = param.getLong("tid");
+        if (tid==null){
+            return 0+"";
+        }else {
+            return technicianService.activeTechnician(tid)+"";
         }
 
+    }
+    @RequestMapping(value = "/freeze",method = RequestMethod.POST)
+    @ResponseBody
+    public String freeze(@RequestBody JSONObject param){
+        Long tid = param.getLong("tid");
+        if (tid==null){
+            return 0+"";
+        }else {
+            return technicianService.freezeTechnician(tid)+"";
+        }
     }
 }

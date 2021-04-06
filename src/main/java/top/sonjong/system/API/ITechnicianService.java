@@ -19,4 +19,7 @@ public interface ITechnicianService {
     int updateTechnicianInfo(TechnicianPOJO technicianPOJO);
 
     TechnicianPOJO  userLogin(String account);
+    int freezeTechnician(Long tid);
+
+    int activeTechnician(Long tid);
 }

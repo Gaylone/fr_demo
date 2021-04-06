@@ -58,5 +58,15 @@ public class TechnicianServiceImpl implements ITechnicianService {
         return technicianDAO.userLogin(account);
     }
 
+    @Override
+    public int freezeTechnician(Long tid) {
+        return technicianDAO.freezeTechnician(tid);
+    }
+
+    @Override
+    public int activeTechnician(Long tid) {
+        return technicianDAO.activeTechnician(tid);
+    }
+
 
 }

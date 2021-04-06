@@ -1,6 +1,5 @@
 package top.sonjong.system.interceptor;
 
-
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,15 +14,11 @@ public class LoginHandlerInterceptor implements HandlerInterceptor {
         PrintWriter out = response.getWriter();
         Object user = request.getSession().getAttribute("currentUser");
         if (user == null) {
-//            request.getRequestDispatcher("/index.html").forward(request, response);
-
-            out.write("<script>alert('请先登录!');location.href='"+request.getContextPath()+"/login'</script>");
+            out.write("<script>alert('请先登录!');window.location.replace('"+request.getContextPath()+"/login"+"')</script>");
             return false;
         } else {
-            //已登录
-            //放行
+            //已登录则放行
             return true;
         }
-
     }
 }
