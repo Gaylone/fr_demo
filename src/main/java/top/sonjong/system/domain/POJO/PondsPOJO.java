@@ -12,6 +12,15 @@ public class PondsPOJO implements Serializable {
     private Long p_fid;
     private String pName;
     private Integer pStatus;
+    private String fName;
+
+    public String getfName() {
+        return fName;
+    }
+
+    public void setfName(String fName) {
+        this.fName = fName;
+    }
 
     public Long getPid() {
         return pid;

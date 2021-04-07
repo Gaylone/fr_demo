@@ -1,6 +1,8 @@
+var pid2 =null;
 $(document).ready(function() {
     var checkID=0;
     var fid=null;
+    var checkNum=false;
     //新增池塘时的校验
     $("#fIDNum").blur(function(){
         var idnum=$("#fIDNum").val()
@@ -65,5 +67,101 @@ $(document).ready(function() {
             })
         }
     })
+    $("#new_size").onblur(function (){
+        $("#psizeMessage").text("")
+        if (isNumber($("#new_size").val())){
+            checkNum=true;
+            $("#psizeMessage").text("")
+        }else {
+            checkNum=false;
+            $("#psizeMessage").text("只能输入数字")
+        }
+    })
+    $("#updateInfo").click(function (){
+        var data={
+            "pid":pid2,
+            "pName":$("#new_pname").val(),
+            "p_fid":$("#new_fName").val(),
+            "pType":$("#new_type").val(),
+            "pSize":$("#new_size").val()
+        }
+        if (checkNum){
+            $.ajax({
+                url:"ponds/updateInfo",
+                data:JSON.stringify(data),
+                contentType: "application/json;charset=UTF-8",
+                method:"post",
+                success:function (result){
+                    if (result=="1"){
+                        alert("信息更改完成")
+                        location.reload();
+                    }else {
+                        alert("信息修改不成功")
+                        location.reload();
+                    }
+                }
+            })
+        }
 
+        pid2=null;
+    })
 });
+function filled(pid){
+    alert("您确定要填埋此池塘吗？填埋后此池塘将不可使用！")
+    $.ajax({
+        url:"ponds/filled"+pid,
+        method:"post",
+        success:function (result){
+            if (result=="1"){
+                alert("已填埋！")
+                location.reload()
+            }else {
+                alert("填埋失败！")
+                location.reload()
+            }
+        }
+    })
+}
+function changeINFO(pid){
+    $("#old_pName").text("")
+    $("#old_fName").text("")
+    $("#old_pType").text("")
+    $("#old_pSize").text("")
+    $("#new_fName").html("")
+    pid2=pid
+    $.ajax({
+        url:"ponds/getPondsByFID",
+        data:JSON.stringify({"pid":pid}),
+        method:"post",
+        contentType: "application/json;charset=UTF-8",
+        dataType: "json",
+        success:function (result){
+            $("#old_pName").text(result[0].pName)
+            $("#old_fName").text(result[0].fName)
+            $("#old_pSize").text(result[0].pSize)
+            $("#old_pType").text(result[0].pType)
+        }
+    })
+    $.ajax({
+        url:"farmer/getAllFarmer",
+        method:"post",
+        dataType: "json",
+        success:function (result){
+            if (result.length==0){
+                $("#new_fName").append("<option>抱歉，没有养殖户信息</option>")
+            }else {
+                for (var i=0;i<result.length;i++){
+                    $("#new_fName").append("<option value=\""+result[i].fid+"\">"+result[i].fName+"</option>")
+                }
+            }
+        }
+    })
+}
+function isNumber(value) {         //验证是否为数字
+    var patrn = /^(-)?\d+(\.\d+)?$/;
+    if (patrn.exec(value) == null || value == "") {
+        return false
+    } else {
+        return true
+    }
+}

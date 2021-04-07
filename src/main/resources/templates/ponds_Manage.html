@@ -84,7 +84,7 @@
 							<div class="modal-body">
 								<div class="form-group">
 									<label for="pname">池塘名</label>
-									<input type="email" class="form-control" id="pname" placeholder="最好以人名+#池塘类型命名，如'林颂忠#虾塘'">
+									<input type="text" class="form-control" id="pname" placeholder="最好以人名+#池塘类型命名，如'林颂忠#虾塘'">
 								</div>
 
 								<div class="form-group">
@@ -112,7 +112,42 @@
 						</div>
 					</div>
 				</div>
+				<div class="modal fade" id="changeInfoModal" tabindex="-1" role="dialog" aria-labelledby="mydetailModalLabel">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+								<h4 class="modal-title" id="mydetailModalLabel">修改池塘信息</h4>
+							</div>
+							<div class="modal-body">
+								<div class="form-group">
+									<label>池塘名:<span id="old_pName"></span></label>
+									<input type="text" class="form-control" id="new_pname" placeholder="新塘名，如果不调整不填">
+								</div>
+								<div class="form-group">
+									<label>所属人:<span id="old_fName"></span></label>
+									<select class="form-control" id="new_fName" name="new_fName">
 
+									</select>
+
+								</div>
+								<div class="form-group">
+									<label>类型:<span id="old_pType"></span></label>
+									<input type="text" class="form-control" id="new_type" placeholder="类型调整，如果不调整不填">
+								</div>
+								<div class="form-group">
+									<label>尺寸:<span id="old_pSize"></span></label>
+									<input type="text" class="form-control" id="new_size" placeholder="尺寸调整，如果不调整不填">
+									<span id="psizeMessage" class="message"></span>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" id="updateInfo">提交</button>
+								<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+							</div>
+						</div>
+					</div>
+				</div>
 				<!--列表内容-->
 				<div class="page_content clearfix mb15 table-module ">
 					<table class="gallery table table_list table_striped table-bordered " id="tableList">
@@ -121,6 +156,7 @@
 
 								<th width="120"><p>PID</p></th>
 								<th width="100"><p>塘名</p></th>
+								<th width="100"><p>所属人</p></th>
 								<th width="50"><p>尺寸</p></th>
 								<th width="350"><p>地址</p></th>
 								<th width="150"><p>类型</p></th>
@@ -132,13 +168,13 @@
 						<tr class="relative" th:each="ponds,pondsList:${pondsPOJOList}">
 							<td th:text="${ponds.pid}"></td>
 							<td th:text="${ponds.pName}"></td>
+							<td th:text="${ponds.fName}"></td>
 							<td th:text="${ponds.pSize}"></td>
 							<td th:text="${ponds.pAddress}"></td>
 							<td th:text="${ponds.pType}"></td>
-							<td th:switch="${ponds.pStatus}">
-								<a th:case="0" class="name_status  plf10 btn btn-gray" data-id="0" id="unused"  target="_self">投产</a>
-								<a th:case="1" class="name_status  plf10 btn btn-green" data-id="1" id="using"  target="_self">闲置</a>
-								<a class="name_status  plf10 btn btn-danger" data-id="2" id="filled"  target="_self">填埋</a>
+							<td >
+								<a class="name_status  plf10 btn btn-gray"  th:onclick="changeINFO([[${ponds.pid}]])"  data-toggle="modal" data-target="#changeInfoModal" title="变更信息">变更信息</a>
+								<a class="name_status  plf10 btn btn-danger"  th:onclick="filled([[${ponds.pid}]])">填埋</a>
 							</td>
 						</tr>
 						</tbody>

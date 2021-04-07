@@ -8,6 +8,7 @@
         <result column="ptype" property="pType" jdbcType="VARCHAR"/>
         <result column="p_fid" property="p_fid" jdbcType="BIGINT"/>
         <result column="pname" property="pName" jdbcType="VARCHAR"/>
+        <result column="fname" property="fName" jdbcType="VARCHAR"/>
         <result column="pstatus" property="pStatus" jdbcType="BIGINT"/>
     </resultMap>
     <insert id="addPond" parameterType="top.sonjong.system.domain.POJO.PondsPOJO">
@@ -23,11 +24,11 @@
     <update id="updatePondInfo" parameterType="top.sonjong.system.domain.POJO.PondsPOJO">
         update ponds
         <trim prefix="set" suffixOverrides=",">
-            <if test="pAddress!=null">paddress=#{pAddress,jdbcType=VARCHAR},</if>
-            <if test="pSize!=null">pSize=#{pSize,jdbcType=VARCHAR},</if>
-            <if test="pType!=null">pType= #{pType,jdbcType=VARCHAR},</if>
-            <if test="p_fid!=null">p_fid=#{p_fid,jdbcType=VARCHAR },</if>
-            <if test="pName!=null">pName=#{pName,jdbcType=VARCHAR },</if>
+            <if test="pAddress!=null and pAddress!=''">paddress=#{pAddress,jdbcType=VARCHAR},</if>
+            <if test="pSize!=null and pSize!=''">pSize=#{pSize,jdbcType=VARCHAR},</if>
+            <if test="pType!=null and pType!=''">pType= #{pType,jdbcType=VARCHAR},</if>
+            <if test="p_fid!=null and p_fid!=''">p_fid=#{p_fid,jdbcType=VARCHAR },</if>
+            <if test="pName!=null and pName!=''">pName=#{pName,jdbcType=VARCHAR },</if>
         </trim>
         where pid=#{pid,jdbcType=BIGINT}
     </update>
@@ -44,11 +45,11 @@
         select count(*) from ponds where pstatus != 2
     </select>
     <select id="getAllPond" resultMap="BaseResultMap">
-        select * from ponds where pstatus != 2  order by pstatus
+        select * from ponds left join farmer on ponds.p_fid=farmer.fid where pstatus != 2  order by pstatus
     </select>
     <select id="findPondByConditions" parameterType="top.sonjong.system.domain.criteria.PondsCriteria"
     resultMap="BaseResultMap">
-        select * from ponds where 1=1
+        select * from ponds left join farmer on ponds.p_fid=farmer.fid where 1=1
         <include refid="sqlConditionBypAddress"/>
         <include refid="sqlConditionBypType"/>
         <include refid="sqlConditionByStatus"/>
