@@ -30,12 +30,12 @@
     <update id="updateFarmerInfo" parameterType="top.sonjong.system.domain.POJO.FarmerPOJO">
         update farmer
             <trim prefix="set" suffixOverrides=",">
-                <if test="fName!=null">fname=#{fName,jdbcType=VARCHAR},</if>
-                <if test="fIdNum!=null">fidnum=#{fIdNum,jdbcType=VARCHAR},</if>
-                <if test="fSex!=null">fsex= #{fSex,jdbcType=VARCHAR},</if>
-                <if test="fBirthday!=null">fbirthday=#{fBirthday,jdbcType=VARCHAR },</if>
-                <if test="fAddress!=null">faddress=#{fAddress,jdbcType=VARCHAR },</if>
-                <if test="fPhone!=null">fphone=#{fPhone,jdbcType=VARCHAR },</if>
+                <if test="fName!=null and fName !=''">fname=#{fName,jdbcType=VARCHAR},</if>
+                <if test="fIdNum!=null and fIdNum !=''" >fidnum=#{fIdNum,jdbcType=VARCHAR},</if>
+                <if test="fSex!=null and fSex !=''">fsex= #{fSex,jdbcType=VARCHAR},</if>
+                <if test="fBirthday!=null and fBirthday !=''">fbirthday=#{fBirthday,jdbcType=VARCHAR },</if>
+                <if test="fAddress!=null and fAddress !=''">faddress=#{fAddress,jdbcType=VARCHAR },</if>
+                <if test="fPhone!=null and fPhone !=''">fphone=#{fPhone,jdbcType=VARCHAR },</if>
             </trim>
             where fid=#{fid,jdbcType=BIGINT}
     </update>

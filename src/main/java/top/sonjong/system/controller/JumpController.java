@@ -57,7 +57,7 @@ public class JumpController {
             return "index";
         }else{
             out.write("<script>alert('用户名或密码错误')</script>");
-            return "login";
+            return "redirect:login";
         }
     }
     @RequestMapping("/farmerManage")
@@ -117,9 +117,10 @@ public class JumpController {
         TechnicianPOJO technicianPOJO = (TechnicianPOJO) session.getAttribute("currentUser");
         if (technicianPOJO.getRole()==0){
             out.write("<script>alert('抱歉，您无权访问此页面')</script>");
-            return "redirect:portal";
+
+            return "redirect:login";
         }else {
-            return "redirect:admin";
+            return "redirect:../admin";
         }
 
     }

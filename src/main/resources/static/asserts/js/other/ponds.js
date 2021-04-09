@@ -109,7 +109,7 @@ $(document).ready(function() {
 function filled(pid){
     alert("您确定要填埋此池塘吗？填埋后此池塘将不可使用！")
     $.ajax({
-        url:"ponds/filled"+pid,
+        url:"ponds/filled/"+pid,
         method:"post",
         success:function (result){
             if (result=="1"){

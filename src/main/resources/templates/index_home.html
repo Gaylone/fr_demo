@@ -112,6 +112,9 @@
 				<div class="col-md-7">
 					<div class="box-module">
 						<div class="box-title">简易操作指南</div>
+						<a th:if="${session.currentUser.role==1}" th:href="@{private/}" style="font-size: 25px;color: #00a2d4;float: right" target="_blank">
+							用户管理
+						</a>
 						<div class="box-content">
 							<div class="Shops_info clearfix">
 								<div class="operating_style Quick_operation menuUl">

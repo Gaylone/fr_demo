@@ -29,7 +29,7 @@ public class FarmerServiceImpl implements IFarmerService {
     }
 
     @Override
-    public int ChangeFarmerStatus(Long fid, Integer flag) {
+    public int changeFarmerStatus(Long fid, Integer flag) {
         int result =0;
         if (flag==0){
             result=farmerDAO.activeFarmer(fid);

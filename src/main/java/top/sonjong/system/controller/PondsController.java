@@ -47,7 +47,7 @@ public class PondsController {
         return pondsService.addPond(pondsPOJO)+"";
     }
 
-    @RequestMapping(value = "/getPondsNum",method = RequestMethod.GET)
+    @RequestMapping(value = "/getPondsNum",method = RequestMethod.POST)
     @ResponseBody
     public String getPondsNum(){
         logger.info("获取池塘数量");

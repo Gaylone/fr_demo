@@ -9,7 +9,7 @@ public interface IFarmerService {
 
     int addFarmer(FarmerPOJO farmerPOJO);
 
-    int ChangeFarmerStatus(Long fid,Integer flag);//fid自不必说，flag的取值有 从业/转业
+    int changeFarmerStatus(Long fid,Integer flag);//fid自不必说，flag的取值有 从业/转业
 
     List<FarmerPOJO>  findFarmersByConditions(FarmerCriteria farmerCriteria);
 

@@ -43,7 +43,35 @@
 					</button>
 					<span class="sumQuantity">农户数量：<em id="quantity"></em>人</span>
 				</div>
-
+				<!-- Modal -->
+				<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+								<h4 class="modal-title" id="myModalLabel2">信息维护</h4>
+							</div>
+							<div class="modal-body">
+								<div class="form-group">
+									<label>新名字:(原名：<span id="oldNameMessage" style="color: red"></span>)</label>
+									<input type="text" class="form-control" id="new_fName" placeholder="不改不填"/>
+								</div>
+								<div class="form-group">
+									<label>手机号:</label>
+									<input type="text" class="form-control" id="new_fPhone" placeholder="不改不填"/>
+								</div>
+								<div class="form-group">
+									<label>新住址:</label>
+									<input type="text" class="form-control" id="new_fAddress" placeholder="不改不填"/>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+								<button type="button" class="btn btn-primary" id="updateInfo">提交</button>
+							</div>
+						</div>
+					</div>
+				</div>
 				<!-- Modal -->
 				<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 					<div class="modal-dialog" role="document">
@@ -111,15 +139,15 @@
 						</thead>
 						<tbody id="productlist">
 						<tr class="relative" th:each="farmer,farmerList:${farmerPOJOList}">
-
 							<td th:text="${farmer.fid}"></td>
 							<td th:text="${farmer.fName}"></td>
 							<td th:text="${farmer.fSex}"></td>
 							<td th:text="${farmer.fAddress}"></td>
 							<td th:text="${farmer.fPhone}"></td>
 							<td th:switch="${farmer.status}">
-								<span th:case="0" class="name_status  plf10 btn btn-gray" data-id="0">下架</span>
-								<span th:case="1" class="name_status  plf10 btn btn-green" data-id="1">上架</span>
+								<span  class="name_status  plf10 btn btn-gray" data-toggle="modal" data-target="#myModal2" th:onclick="changeInfo([[${farmer.fid}]])">信息维护</span>
+								<span th:case="0" class="name_status  plf10 btn btn-green" th:onclick="freeze([[${farmer.fid}]])">转行</span>
+								<span th:case="1" class="name_status  plf10 btn btn-green" th:onclick="active([[${farmer.fid}]])">从业</span>
 							</td>
 						</tr>
 						</tbody>

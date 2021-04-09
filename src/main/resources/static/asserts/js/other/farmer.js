@@ -1,8 +1,55 @@
 var checkIDNUM=false;
 var checkName=false;
 var checkAddress=false;
-
+var FID=null;
+function changeInfo(fid){
+    $("#oldNameMessage").text("")
+    $.ajax({
+        url:"farmer/getFarmer/"+fid,
+        method:"post",
+        dataType: "json",
+        success:function (result){
+            $("#oldNameMessage").text(result[0].fName)
+            FID=fid;
+        }
+    })
+}
 $(document).ready(function() {
+    $("#updateInfo").click(function (){
+        if (FID!=null){
+            if($("#new_fName").val()==''&&$("#new_fAddress").val()==''&&$("#new_fPhone").val()==''){
+                alert("请填写修改的信息，否则请关闭")
+                return false
+            }else {
+                var data = {
+                    "fid":FID,
+                    "fName":$("#new_fName").val(),
+                    "fAddress":$("#new_fAddress").val(),
+                    "fPhone":$("#new_fPhone").val()
+                }
+                $.ajax({
+                    url:"farmer/updateInfo",
+                    data:JSON.stringify(data),
+                    contentType: "application/json;charset=UTF-8",
+                    method:"post",
+                    success:function (result) {
+                        if (result=='1'){
+                            alert("信息更新完成")
+                            location.reload()
+                        }else {
+                            alert("信息更新失败")
+                            location.reload()
+                        }
+                    }
+                })
+            }
+
+
+            FID=null
+        }
+
+
+    })
 
     $("#fidnum").blur(function(){
         var idnum=$("#fidnum").val()
@@ -93,3 +140,35 @@ $("#saveFarmer").click(function (){
 
 })
 });
+function freeze(fid){
+    alert("是否确定转业该养殖户")
+    $.ajax({
+        url:"farmer/freeze/"+fid,
+        method:"post",
+        success:function (result){
+            if (result=='1'){
+                alert("转业成功")
+                location.reload()
+            }else {
+                alert("转业失败")
+                location.reload()
+            }
+        }
+    })
+}
+function active(fid){
+    $.ajax({
+        url:"farmer/active/"+fid,
+        method:"post",
+        success:function (result){
+            if (result=='1'){
+                alert("从业成功")
+                location.reload()
+            }else {
+                alert("从业失败")
+                location.reload()
+            }
+        }
+    })
+
+}

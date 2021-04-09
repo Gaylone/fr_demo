@@ -25,11 +25,11 @@
     <update id="updateTechnicianInfo" parameterType="top.sonjong.system.domain.POJO.TechnicianPOJO">
         update technician
         <trim prefix="set" suffixOverrides=",">
-            <if test="tName!=null">tname=#{tName,jdbcType=VARCHAR},</if>
-            <if test="tidNum!=null">tidnum=#{tidNum,jdbcType=VARCHAR},</if>
-            <if test="tSex!=null">tsex= #{tSex,jdbcType=VARCHAR},</if>
-            <if test="tMajor!=null">tmajor=#{tMajor,jdbcType=VARCHAR },</if>
-            <if test="tPhone!=null">tphone=#{tPhone,jdbcType=VARCHAR },</if>
+            <if test="tName!=null and tName !=''">tname=#{tName,jdbcType=VARCHAR},</if>
+            <if test="tidNum!=null and tidNum !=''">tidnum=#{tidNum,jdbcType=VARCHAR},</if>
+            <if test="tSex!=null and tSex !=''">tsex= #{tSex,jdbcType=VARCHAR},</if>
+            <if test="tMajor!=null and tMajor !=''">tmajor=#{tMajor,jdbcType=VARCHAR },</if>
+            <if test="tPhone!=null and tPhone !=''">tphone=#{tPhone,jdbcType=VARCHAR },</if>
             <if test="pswd!=null and pswd!=''">pswd=#{pswd,jdbcType=VARCHAR },</if>
         </trim>
         where tid=#{tid,jdbcType=BIGINT}
@@ -52,7 +52,7 @@
         <include refid="sqlConditionByAccount"/>
     </select>
     <select id="getAllTechnician" resultMap="BaseResultMap">
-        select * from technician order by `status` asc
+        select * from technician where `role`=0 order by `status` asc
     </select>
     <select id="userLogin" resultMap="BaseResultMap">
         select * from technician where account = #{account} and `status`=0

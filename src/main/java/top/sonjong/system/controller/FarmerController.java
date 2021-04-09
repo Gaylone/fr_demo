@@ -48,4 +48,29 @@ public class FarmerController {
     public String countFarmer(){
         return farmerService.countFarmerNum()+"";
     }
+
+    @ResponseBody
+    @RequestMapping(value = "/freeze/{fid}",method = RequestMethod.POST)
+    public String freezeFarmer(@PathVariable Long fid){
+        return farmerService.changeFarmerStatus(fid,1)+"";
+    }
+    @ResponseBody
+    @RequestMapping(value = "/active/{fid}",method = RequestMethod.POST)
+    public String activeFarmer(@PathVariable Long fid){
+        return farmerService.changeFarmerStatus(fid,0)+"";
+    }
+    @ResponseBody
+    @RequestMapping(value = "/getFarmer/{fid}",method = RequestMethod.POST)
+    public String getFarmerByID(@PathVariable Long fid){
+        FarmerCriteria farmerCriteria =new FarmerCriteria();
+        farmerCriteria.setFid(fid);
+        return JSON.toJSONString(farmerService.findFarmersByConditions(farmerCriteria));
+    }
+    @ResponseBody
+    @RequestMapping(value = "/updateInfo",method = RequestMethod.POST)
+    public String updateInfo(@RequestBody JSONObject param){
+        FarmerPOJO farmerPOJO = param.toJavaObject(FarmerPOJO.class);
+
+        return farmerService.updateFarmerInfo(farmerPOJO)+"";
+    }
 }
