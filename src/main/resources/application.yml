@@ -21,8 +21,8 @@ spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     username: root
-    password: 123456
-    url: jdbc:mysql://localhost:3306/aquaculture?serverTimezone=GMT%2B8&amp;useUnicode=true&amp;characterEncoding=utf8&amp;useSSL=false
+    password: hanqi5277.
+    url: jdbc:mysql://localhost:3333/aquaculture?serverTimezone=GMT%2B8&amp;useUnicode=true&amp;characterEncoding=utf8&amp;useSSL=false
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
       initial-size: 8
@@ -46,10 +46,10 @@ server:
       charset: utf-8
       enabled: true
     context-path: /
-  port: 80
+  port: 12345
 
 logging:
   config: classpath:logback-spring.xml
   #日志输出路径
   file:
-    path: D:/nmyslog/nmys
+    path: C:/nmyslog/nmys

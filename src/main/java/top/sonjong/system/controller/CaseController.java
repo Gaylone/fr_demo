@@ -24,10 +24,9 @@ import java.util.Date;
 @RequestMapping("/case")
 public class CaseController {
     private static final Logger logger = LoggerFactory.getLogger(CaseController.class);
+    private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy:MM:dd HH:mm:ss");
     @Autowired
     private ICaseService caseService;
-
-    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     @RequestMapping(value = "/uploadImg",method= RequestMethod.POST)
     @ResponseBody
@@ -36,6 +35,7 @@ public class CaseController {
         String url = ImgUpload.upload(multipartFile,request);
 
         WangEditor we = new WangEditor(url);
+        logger.info(dateFormat.format(new Date())+"文件上传：参数{}",url);
         return we;
 
     }
@@ -49,7 +49,7 @@ public class CaseController {
         casePOJO.setC_tid(technicianPOJO.getTid());
         int flag = caseService.saveCase(casePOJO);
         if (flag==1){
-
+            logger.info(dateFormat.format(new Date())+"新增病历：参数{}",JSON.toJSONString(casePOJO));
             return "success";
         }else {
             return "error";
@@ -61,7 +61,7 @@ public class CaseController {
         CaseCriteria caseCriteria = new CaseCriteria();
         caseCriteria.setCid(cid);
         CasePOJO casePOJO = caseService.getCaseByCondition(caseCriteria).get(0);
-        logger.info("记录日志：通过ID获取病历{}",cid);
+        logger.info(dateFormat.format(new Date())+"记录日志：通过ID获取病历{}",cid);
         return JSON.toJSONString(casePOJO);
     }
     @RequestMapping(value = "/countCase",method = RequestMethod.POST)
